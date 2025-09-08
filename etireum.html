@@ -1,206 +1,3109 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereum Information & Resources</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Ethereum Resources Directory</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.25rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        
+        main {
+            padding: 0.75rem 0;
+        }
+        
+        .category-section {
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+        }
+        
+        .category-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .category-count {
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+        
+        .resources-grid {
+            padding: 0.75rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .resource-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .resource-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            color: #1e293b;
+        }
+        
+        .resource-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .resource-title a:hover {
+            color: #667eea;
+        }
+        
+        .resource-short {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .resource-description {
+            color: #475569;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+        
+        
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        .search-container {
+            background: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .search-stats {
+            text-align: center;
+            padding: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .category-section.hidden {
+            display: none;
+        }
+        
+        .resource-card.hidden {
+            display: none;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
-
-    <div class="container mx-auto p-4 md:p-8">
-        <!-- Header Section -->
-        <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Ethereum Information & Resources</h1>
-            <p class="text-slate-600 mt-3 max-w-2xl mx-auto">A curated list of projects, tools, and information for the Ethereum ecosystem, inspired by Lopp.net's directory.</p>
-        </header>
-
-        <div class="flex flex-col md:flex-row md:space-x-8">
-            <!-- Sticky Navigation Sidebar -->
-            <aside class="w-full md:w-1/4 lg:w-1/5 mb-8 md:mb-0">
-                <div class="sticky top-8 bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold text-blue-700 mb-4 border-b border-slate-200 pb-3">Categories</h2>
-                    <ul id="category-nav" class="space-y-2">
-                        <!-- Navigation links will be populated by JavaScript -->
-                        <li class="animate-pulse bg-slate-200 h-6 rounded-md"></li>
-                        <li class="animate-pulse bg-slate-200 h-6 rounded-md w-5/6"></li>
-                        <li class="animate-pulse bg-slate-200 h-6 rounded-md w-2/3"></li>
-                    </ul>
-                </div>
-            </aside>
-
-            <!-- Main Content Area -->
-            <main id="content-area" class="w-full md:w-3/4 lg:w-4/5">
-                <!-- Content sections will be populated by JavaScript -->
-                 <div class="space-y-4">
-                    <div class="animate-pulse bg-slate-200 h-10 w-1/2 rounded-md"></div>
-                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
-                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
-                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
-                </div>
-            </main>
+<body>
+    <header>
+        <div class="container">
+            <h1>Ethereum Resources Directory</h1>
+            <p>Your comprehensive guide to educational Ethereum resources</p>
+        </div>
+    </header>
+    
+    <div class="search-container">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" 
+                       class="search-input" 
+                       id="searchInput" 
+                       placeholder="Search resources by name, category, or description..." 
+                       autocomplete="off">
+            </div>
+            <div class="search-stats" id="searchStats"></div>
         </div>
     </div>
+    
+    <main>
+        <div class="container">
+            <section id="app" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">APP</h2>
+                    <p class="category-count">3 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.request.finance/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Request Finance
+                            </h3>
+                        <p class="resource-short">Crypto payment solution</p>
+                        <p class="resource-description">Request Finance is a decentralized payment infrastructure that enables businesses and freelancers to manage cryptocurrency invoicing, billing, and payroll with multi-chain support and fiat conversion capabilities. The platform allows users to create and send professional crypto invoices, automate re...</p>
+                    </a>
+                    <a href="https://www.moonpay.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MoonPay
+                            </h3>
+                        <p class="resource-short">Payment processor</p>
+                        <p class="resource-description">MoonPay is a cryptocurrency payment infrastructure platform that enables seamless fiat-to-crypto transactions for consumers and businesses through a unified API and widget solution. The platform supports over 380 cryptocurrencies and allows users to purchase digital assets using various payment meth...</p>
+                    </a>
+                    <a href="https://ramp.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ramp
+                            </h3>
+                        <p class="resource-short">Payment processor</p>
+                        <p class="resource-description">Ramp is a payment infrastructure platform that facilitates the seamless conversion between fiat currencies and cryptocurrencies. It provides developers with a robust API and SDKs to integrate crypto on-ramping capabilities into their applications, enabling users to purchase digital assets directly w...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="beginner" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Beginner</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://ethereum.org/en/what-is-ethereum/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Official Site
+                            </h3>
+                        <p class="resource-short">Comprehensive introduction to Ethereum, covering its purpose and functionalities.</p>
+                        <p class="resource-description">Ethereum is a decentralized, open-source blockchain platform that enables smart contract functionality and supports the creation of decentralized applications (dApps) through its native Ethereum Virtual Machine (EVM). Utilizing a proof-of-stake consensus mechanism since the 2022 Merge, the network a...</p>
+                    </a>
+                    <a href="https://www.ethereum.org/en/upgrades/merge/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum 101
+                            </h3>
+                        <p class="resource-short">Ethereum’s switch from Proof-of-Work to Proof-of-Stake explained</p>
+                        <p class="resource-description">A seminal blog post.</p>
+                    </a>
+                    <a href="https://www.youtube.com/@PatrickAlphaC" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Patrick Collins
+                            </h3>
+                        <p class="resource-short">Tutorials</p>
+                        <p class="resource-description">Patrick Collins is a prominent figure in the blockchain and cryptocurrency space, known for his educational content on smart contract development and decentralized finance. His tutorials, particularly on platforms like YouTube, focus on empowering developers with practical skills in Solidity, Chainl...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@austingriffith3550" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Austin Griffith
+                            </h3>
+                        <p class="resource-short">Tutorials</p>
+                        <p class="resource-description">Austin Griffith is a developer, educator, and prominent figure in the Ethereum and Web3 ecosystem who has created several influential open-source development tools and learning platforms. He is best known for developing Scaffold-ETH, a rapidly iterative development environment that enables developer...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="blog---blog-posts" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Blog / blog posts</h2>
+                    <p class="category-count">11 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.alchemy.com/overviews/what-is-a-mempool" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                What is a mempool.
+                            </h3>
+                        <p class="resource-short">A blog post by Alchemy to explain what the mempool is.</p>
+                        <p class="resource-description">A mempool (memory pool) is a critical component of blockchain networks where unconfirmed transactions are temporarily stored and validated before being added to a block. Nodes in the network maintain their own mempools, which act as staging areas for transactions that have been broadcast but not yet...</p>
+                    </a>
+                    <a href="https://www.mirror.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Mirror
+                            </h3>
+                        <p class="resource-short">The home for web3 publishing</p>
+                        <p class="resource-description">Mirror is a decentralized publishing platform built on Ethereum, enabling creators to monetize their content through blockchain technology. It allows users to publish articles, crowdfund projects, and mint NFTs directly on the platform. Mirror leverages smart contracts to ensure transparency and imm...</p>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=ZE2HxTmxfrI" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                smart contracts simply explained
+                            </h3>
+                        <p class="resource-short">What are Smart Contracts? Explained Simply</p>
+                        <p class="resource-description">A decentralized platform leveraging blockchain technology to enable programmable, self-executing agreements with transparent and immutable transaction logic. Smart contracts autonomously enforce predefined conditions and rules without intermediary intervention, utilizing cryptographic verification a...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@naderdabit" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Nader Dabit
+                            </h3>
+                        <p class="resource-short">Tutorials</p>
+                        <p class="resource-description">Nader Dabit is a prominent developer advocate and educator in the web3 and blockchain ecosystem, known for his extensive content creation and technical tutorials around decentralized technologies. He has significant experience in full-stack development, React, React Native, GraphQL, and has transiti...</p>
+                    </a>
+                    <a href="https://github.com/dataalways/writing" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Data Always
+                            </h3>
+                        <p class="resource-short">Blog focussed on protocol research</p>
+                        <p class="resource-description">Blog focussed on protocol research</p>
+                    </a>
+                    <a href="https://read.cryptodatabytes.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Crypto data Bytes
+                            </h3>
+                        <p class="resource-short">Technical blog about Web3 data science</p>
+                        <p class="resource-description">Crypto Data Bytes is a comprehensive blockchain analytics and data aggregation platform that focuses on providing granular insights into cryptocurrency transaction patterns, network metrics, and market dynamics. The platform leverages advanced machine learning algorithms and distributed data process...</p>
+                    </a>
+                    <a href="https://hasu.blog/select-writing-and-research" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Hasu's blog
+                            </h3>
+                        <p class="resource-short">Hasu is Flashbots' strategy lead.</p>
+                        <p class="resource-description">Hasu is a prominent crypto researcher and writer known for his in-depth analytical pieces exploring blockchain economics, protocol design, and cryptoeconomic systems. His blog features nuanced technical essays that critically examine governance, incentive structures, and strategic dynamics within de...</p>
+                    </a>
+                    <a href="https://www.hashbasis.xyz/blog/how-to-choose-a-crypto-subledger-thats-right-for-your-company" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Hashbasis
+                            </h3>
+                        <p class="resource-short">Blog about crypto accounting</p>
+                        <p class="resource-description">Blog about crypto accounting</p>
+                    </a>
+                    <a href="https://substack.com/@cobie/posts" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Cobie's blog
+                            </h3>
+                        <p class="resource-short">Unhinged crypto OG</p>
+                        <p class="resource-description">Unhinged crypto OG</p>
+                    </a>
+                    <a href="https://hackmd.io/@pcaversaccio/the-ethereum-cypherpunk-manifesto" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Ethereum Cypherpunk Manifesto
+                            </h3>
+                        <p class="resource-short">Great blogpost to find a why.</p>
+                        <p class="resource-description">Great blogpost to find a why.</p>
+                    </a>
+                    <a href="https://www.google.com/search?q=Read+Write+Own+&sca_esv=1ce1c2e72280d3ca&sxsrf=AHTn8zrRJdOj9akm5eC2lc1KEJslrKcvJg%3A1742495271612&ei=J17cZ_SHJd-3i-gPnciPmAc&ved=0ahUKEwi0t7_dpJmMAxXf2wIHHR3kA3MQ4dUDCBA&uact=5&oq=Read+Write+Own+&gs_lp=Egxnd3Mtd2l6LXNlcnAiD1JlYWQgV3JpdGUgT3duIDIFEC4YgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyFBAuGIAEGJcFGNwEGN4EGOAE2AEBSLICUABYAHAAeACQAQCYAdwBoAHcAaoBAzItMbgBA8gBAPgBAvgBAZgCAaAC5wGYAwC6BgYIARABGBSSBwMyLTGgB4kIsgcDMi0xuAfnAQ&sclient=gws-wiz-serp" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Read Write Own
+                            </h3>
+                        <p class="resource-short">About the potential of blockchains</p>
+                        <p class="resource-description">Must read book</p>
+                    </a>
+                </div>
+            </section>
+            <section id="book" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Book</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.nfx.com/post/network-effects-bible" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Network effect bible
+                            </h3>
+                        <p class="resource-short">Great read on how to gain traction</p>
+                        <p class="resource-description">The Network Effects Bible is a comprehensive resource that explores the dynamics of network effects across various digital platforms and business models, offering an in-depth analysis of how increasing user numbers can create exponential value and competitive advantages. It systematically breaks dow...</p>
+                    </a>
+                    <a href="https://www.google.com/search?q=Proof+of+Stake%3A+The+Making+of+Ethereum+and+the+Philosophy+of+Blockchains&oq=Proof+of+Stake%3A+The+Making+of+Ethereum+and+the+Philosophy+of+Blockchains&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAtIBBzI5M2owajmoAgCwAgE&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Vitalik's book "Proof of Stake"
+                            </h3>
+                        <p class="resource-short">Proof of Stake: The Making of Ethereum and the Philosophy of Blockchains</p>
+                        <p class="resource-description">A comprehensive technical exploration of blockchain consensus mechanisms, focusing on the evolution and implementation of Proof of Stake (PoS) in Ethereum. The book details the philosophical and technical challenges of creating a decentralized, secure, and scalable blockchain network, drawing from V...</p>
+                    </a>
+                    <a href="https://www.google.com/search?q=The+Infinite+Machine%3A+How+an+Army+of+Crypto-Hackers+Is+Building+the+Next+Internet+with+Ethereum&oq=The+Infinite+Machine%3A+How+an+Army+of+Crypto-Hackers+Is+Building+the+Next+Internet+with+Ethereum&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBBzgyM2owajmoAgCwAgA&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Infinite Machine
+                            </h3>
+                        <p class="resource-short">How an Army of Crypto-Hackers Is Building the Next Internet with Ethereum</p>
+                        <p class="resource-description">How an Army of Crypto-Hackers Is Building the Next Internet with Ethereum</p>
+                    </a>
+                    <a href="https://thenetworkstate.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Network State
+                            </h3>
+                        <p class="resource-short">The Network State: How To Start a New Country</p>
+                        <p class="resource-description">The Network State: How To Start a New Country</p>
+                    </a>
+                </div>
+            </section>
+            <section id="bootcamp-developer" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Bootcamp Developer</h2>
+                    <p class="category-count">9 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.alchemy.com/university/courses" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Alchemy university
+                            </h3>
+                        <p class="resource-short">Ethereum & Solidity Bootcamp</p>
+                        <p class="resource-description">Alchemy University is a comprehensive web3 developer education platform that provides interactive, hands-on learning experiences for blockchain and smart contract development. The platform offers structured courses covering Ethereum, Solidity programming, web3 technologies, and blockchain fundamenta...</p>
+                    </a>
+                    <a href="https://www.cryptozombies.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                CryptoZombies
+                            </h3>
+                        <p class="resource-short">Learn Solidity with Gamification (2022)</p>
+                        <p class="resource-description">CryptoZombies is an interactive, blockchain-based learning platform designed to teach developers Solidity smart contract programming through a gamified approach of building a zombie-themed decentralized application. The platform provides step-by-step coding lessons that progressively introduce core ...</p>
+                    </a>
+                    <a href="https://speedrunethereum.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Speedrun Ethereum
+                            </h3>
+                        <p class="resource-short">Solidity Challenges & DApps Development</p>
+                        <p class="resource-description">Bootcamp</p>
+                    </a>
+                    <a href="https://www.useweb3.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                UseWeb3
+                            </h3>
+                        <p class="resource-short">Ethereum Full-Stack Developer Path</p>
+                        <p class="resource-description">Highly recommend website for people willing learn about the technology.</p>
+                    </a>
+                    <a href="https://www.safary.club/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Web3 Marketing community
+                            </h3>
+                        <p class="resource-short">A bootcamp to become a Web3 marketer.</p>
+                        <p class="resource-description">A bootcamp to become a Web3 marketer.</p>
+                    </a>
+                    <a href="https://www.shefi.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SHEFI
+                            </h3>
+                        <p class="resource-short">Women oriented program to learn about Crypto</p>
+                        <p class="resource-description">Diversity bootcamp</p>
+                    </a>
+                    <a href="https://www.dagihouse.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                dAGI House
+                            </h3>
+                        <p class="resource-short">Accelerator for projects at the intersection of Crypto and AI.</p>
+                        <p class="resource-description">The dAGI House project leverages decentralized artificial general intelligence (AGI) technologies to create a blockchain-based ecosystem for collaborative AI development and governance. Its core architecture utilizes tokenized intelligence models, allowing researchers and developers to stake, share,...</p>
+                    </a>
+                    <a href="https://epicgrowthteam.notion.site/Epic-Web3-Speaker-s-Guide-655d7a6715f34d5db0b2c59dccb8dc6d" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Epic Web3 Speaker's Guide
+                            </h3>
+                        <p class="resource-short">Tips and tricks to be a confident speaker</p>
+                        <p class="resource-description">Tips and tricks to be a confident speaker</p>
+                    </a>
+                    <a href="https://sba.sites.stanford.edu/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Stanford Blockchain Accelerator
+                            </h3>
+                        <p class="resource-short">Stanford Blockchain Accelerator</p>
+                        <p class="resource-description">Run by Stanford Alumni, Lecturers, and industry veterans; SBA is THE accelerator and builder community for Stanford's Blockchain Builders. This exclusive admissions-based is program for Stanford Students, alumni, and faculty is free and non-dilultive. Applications are always, open, admission and fre...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="bridge" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Bridge</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://synapseprotocol.com/landing" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Synapse Protocol
+                            </h3>
+                        <p class="resource-short">Battle tested bridge</p>
+                        <p class="resource-description">Synapse Protocol is a cross-chain communication infrastructure designed to facilitate seamless asset transfers and liquidity interoperability across multiple blockchain networks. Utilizing a modular architecture, the protocol enables trustless and efficient bridging of tokens, data, and arbitrary me...</p>
+                    </a>
+                    <a href="https://www.layerzero.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                layerzero
+                            </h3>
+                        <p class="resource-short">Cross-Chain Liquidity Solutions</p>
+                        <p class="resource-description">LayerZero is an omnichain interoperability protocol designed to facilitate seamless communication between different blockchain networks. It enables cross-chain liquidity solutions by allowing decentralized applications to interact with multiple blockchains without the need for intermediaries. The pr...</p>
+                    </a>
+                    <a href="https://www.stargate.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Stargate
+                            </h3>
+                        <p class="resource-short">Cross-chain liquidity protocol</p>
+                        <p class="resource-description">Stargate is a cross-chain liquidity protocol designed to facilitate seamless asset transfers across different blockchain networks. It leverages a unified liquidity pool model, allowing users to swap assets without the need for traditional bridging mechanisms, thus reducing complexity and enhancing e...</p>
+                    </a>
+                    <a href="https://www.instagram.com/base_onchain" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Base on Instagram
+                            </h3>
+                        <p class="resource-short">Web2 <> Web 3</p>
+                        <p class="resource-description">Base is a layer-2 blockchain network built on Ethereum, developed by Coinbase to provide a scalable and cost-effective infrastructure for decentralized applications (dApps). Utilizing Optimistic Rollup technology, Base enables faster transactions and lower gas fees by processing transactions off the...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="cex" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">CEX</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.kraken.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Kraken
+                            </h3>
+                        <p class="resource-short">Long standing centralized exchange</p>
+                        <p class="resource-description">Kraken is a prominent centralized cryptocurrency exchange known for its robust security measures and wide range of supported digital assets. It offers advanced trading features such as margin trading, futures, and staking, catering to both retail and institutional investors. The platform is renowned...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="calendar" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Calendar</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://docs.google.com/spreadsheets/d/1NEu_FCc1hnGAuRgPmbXXpf0h2lCrCOlMKbbFEqgkVDQ/edit?gid=572241033#gid=572241033" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum events calendar
+                            </h3>
+                        <p class="resource-short">NathanSexer's Ethereum events calendar</p>
+                        <p class="resource-description">A comprehensive and meticulously maintained spreadsheet tracking the diverse ecosystem of Ethereum-related events, conferences, meetups, and significant gatherings across global locations. The calendar provides detailed information including dates, event types, locations, and often includes links or...</p>
+                    </a>
+                    <a href="https://gm.events/#/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                GM events
+                            </h3>
+                        <p class="resource-short">Decentralized side events repository</p>
+                        <p class="resource-description">Decentralized side events repository</p>
+                    </a>
+                </div>
+            </section>
+            <section id="community" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Community</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.ethereum.org/en/community/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum community
+                            </h3>
+                        <p class="resource-short">Ethereum Community Resources</p>
+                        <p class="resource-description">Ethereum is a decentralized, open-source blockchain platform that enables smart contract functionality and supports the development of decentralized applications (dApps) through its native programming language, Solidity. The Ethereum community consists of developers, researchers, miners, investors, ...</p>
+                    </a>
+                    <a href="https://www.ethcatherders.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethcathereders
+                            </h3>
+                        <p class="resource-short">decentralized Ethereum community</p>
+                        <p class="resource-description">A great community</p>
+                    </a>
+                    <a href="https://www.reddit.com/r/ethereum/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum's subreddit
+                            </h3>
+                        <p class="resource-short">Ethereum largest sub reddit</p>
+                        <p class="resource-description">Ethereum largest sub reddit</p>
+                    </a>
+                    <a href="https://github.com/ethereum/pm/tree/master" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum's Project Management Repository
+                            </h3>
+                        <p class="resource-short">Culture of building in the open</p>
+                        <p class="resource-description">Ethereum's Project Management Repository serves as a centralized coordination platform for protocol development, governance discussions, and community-driven decision-making processes across the Ethereum ecosystem. The repository contains meeting notes, network upgrade specifications, research insig...</p>
+                    </a>
+                    <a href="https://www.twitter.com/AyaMiyagotchi" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aya Miyaguchi
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">EF leadership</p>
+                    </a>
+                    <a href="https://www.twitter.com/ethereumJoseph" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Joseph Lubin
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">Joseph Lubin is a co-founder of Ethereum, a decentralized platform that enables smart contracts and decentralized applications (DApps) to be built and run without any downtime, fraud, control, or interference from a third party. He is also the founder of ConsenSys, a blockchain technology company th...</p>
+                    </a>
+                    <a href="https://www.twitter.com/TimBeiko" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tim Beiko
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">Tim Beiko is a prominent core developer and coordinator for the Ethereum protocol, playing a critical role in managing Ethereum's network upgrades and hard forks. He is particularly known for his leadership in coordinating the transition from Ethereum's Proof-of-Work consensus mechanism to Proof-of-...</p>
+                    </a>
+                    <a href="https://ethcf.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Community Foundation
+                            </h3>
+                        <p class="resource-short">An alternative foundation</p>
+                        <p class="resource-description">An alternative foundation</p>
+                    </a>
+                </div>
+            </section>
+            <section id="conferences" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Conferences</h2>
+                    <p class="category-count">10 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.dappcon.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DappCon
+                            </h3>
+                        <p class="resource-short">Ethereum DApp Developer Conference</p>
+                        <p class="resource-description">DappCon is an annual conference focused on decentralized application (DApp) development within the Ethereum ecosystem, bringing together developers, researchers, and blockchain enthusiasts to share knowledge and advance the state of decentralized technology. The conference typically features technic...</p>
+                    </a>
+                    <a href="https://www.devcon.org" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Devcon
+                            </h3>
+                        <p class="resource-short">Ethereum’s Biggest Developer conference</p>
+                        <p class="resource-description">Devcon is a decentralized infrastructure protocol designed to optimize cross-chain communication and asset transfer through a novel consensus mechanism that leverages distributed validator technology. The project implements a multi-layered architecture that enables secure, low-latency interoperabili...</p>
+                    </a>
+                    <a href="https://devconnect.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Devconnect
+                            </h3>
+                        <p class="resource-short">Community led Ethereum conference</p>
+                        <p class="resource-description">Devconnect is an annual, decentralized conference focused on bringing together Ethereum developers, researchers, and builders from around the world to collaborate and advance the ecosystem. Unlike traditional conference models, Devconnect emphasizes smaller, focused events and working sessions that ...</p>
+                    </a>
+                    <a href="https://www.ethcc.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                EthCC
+                            </h3>
+                        <p class="resource-short">Ethereum Community Conference</p>
+                        <p class="resource-description">EthCC, or Ethereum Community Conference, is an annual event focused on the Ethereum blockchain and its ecosystem. It gathers developers, researchers, and enthusiasts to discuss advancements, share knowledge, and collaborate on projects. The conference features talks, workshops, and panels covering t...</p>
+                    </a>
+                    <a href="https://www.ethdenver.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                EthDenver
+                            </h3>
+                        <p class="resource-short">The Largest Ethereum Event in the U.S.</p>
+                        <p class="resource-description">I'll help you with that. However, I noticed a small typo in your link - did you mean https://www.ethdenver.com? 
+
+After reviewing the website, here's a 4-sentence description for a technical audience:
+
+EthDenver is an annual blockchain and Ethereum-focused hackathon and innovation conference that br...</p>
+                    </a>
+                    <a href="https://www.zksummit.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                zkSummit
+                            </h3>
+                        <p class="resource-short">Zero-Knowledge Research Conference</p>
+                        <p class="resource-description">zkSummit is a leading conference dedicated to zero-knowledge proof research, development, and emerging technologies, bringing together cryptographers, researchers, engineers, and entrepreneurs from around the global blockchain and web3 ecosystem. The event focuses on advancing zero-knowledge cryptog...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@ETHDenver" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                EthDenver's youtube
+                            </h3>
+                        <p class="resource-short">North American largest Ethereum conference</p>
+                        <p class="resource-description">A decentralized video platform built on Ethereum, leveraging smart contract infrastructure to enable creator-driven content monetization and robust content ownership mechanisms. The system utilizes tokenized access controls and on-chain reputation scoring to facilitate transparent creator-viewer int...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@TheRollupCo" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Rollup
+                            </h3>
+                        <p class="resource-short">Face-to-face with the most important people in digital assets.</p>
+                        <p class="resource-description">Face-to-face with the most important people in digital assets.</p>
+                    </a>
+                    <a href="https://www.youtube.com/@ducttapeevents" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Duct Tape
+                            </h3>
+                        <p class="resource-short">Cryptonative event production company</p>
+                        <p class="resource-description">Cryptonative event production company</p>
+                    </a>
+                    <a href="https://partyactionpeople.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Party Action People
+                            </h3>
+                        <p class="resource-short">Cryptonative event production company</p>
+                        <p class="resource-description">Cryptonative event production company</p>
+                    </a>
+                </div>
+            </section>
+            <section id="dao" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">DAO</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://aragon.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aragon
+                            </h3>
+                        <p class="resource-short">Platform for building and managing decentralized autonomous organizations.</p>
+                        <p class="resource-description">Aragon is a decentralized platform designed to facilitate the creation and management of decentralized autonomous organizations (DAOs) on the Ethereum blockchain. It provides a suite of governance tools, including voting systems, token management, and financial reporting, enabling organizations to o...</p>
+                    </a>
+                    <a href="https://makerdao.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MakerDAO
+                            </h3>
+                        <p class="resource-short">Decentralized autonomous organization that manages the Dai stablecoin.</p>
+                        <p class="resource-description">MakerDAO is a decentralized autonomous organization (DAO) built on the Ethereum blockchain that enables the generation of DAI, a cryptocurrency stablecoin algorithmically pegged to the US dollar through a sophisticated system of collateralized debt positions (CDPs) and dynamic stability mechanisms. ...</p>
+                    </a>
+                    <a href="https://www.aragon.org" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aragon
+                            </h3>
+                        <p class="resource-short">A framework for building DAOs</p>
+                        <p class="resource-description">Aragon is an open-source framework designed to facilitate the creation and management of decentralized autonomous organizations (DAOs) on the Ethereum blockchain. It provides a suite of modular tools and smart contracts that enable users to deploy customizable governance structures, manage digital a...</p>
+                    </a>
+                    <a href="https://www.daohaus.club" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DAOhaus
+                            </h3>
+                        <p class="resource-short">A no-code tool for launching DAOs</p>
+                        <p class="resource-description">DAOhaus is a decentralized platform that enables users to create and manage Decentralized Autonomous Organizations (DAOs) without requiring extensive technical expertise. Built on the Ethereum blockchain, it provides a flexible, modular framework for collaborative governance through smart contracts,...</p>
+                    </a>
+                    <a href="https://www.deepdao.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DeepDAO
+                            </h3>
+                        <p class="resource-short">Dashboard about DAOs</p>
+                        <p class="resource-description">DeepDAO is a comprehensive analytics platform focused on Decentralized Autonomous Organizations (DAOs) within the Ethereum ecosystem. It aggregates and visualizes data on DAO activities, governance, and financial metrics, providing insights into their operations and health. The platform enables user...</p>
+                    </a>
+                    <a href="https://www.gnosis.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Gnosis
+                            </h3>
+                        <p class="resource-short">Ethereum conglomerate</p>
+                        <p class="resource-description">Gnosis is a decentralized platform built on the Ethereum blockchain, designed to facilitate the creation and management of prediction markets. It leverages smart contracts to enable users to speculate on the outcome of future events, providing a decentralized and trustless environment for informatio...</p>
+                    </a>
+                    <a href="https://zeitgeist.xyz/blog" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Zeitgeist
+                            </h3>
+                        <p class="resource-short">Laboratory for building crypto-native products, protocols, and public goods.</p>
+                        <p class="resource-description">Zeitgeist is a blockchain-based prediction market platform built on Substrate, enabling decentralized forecasting and probabilistic decision-making through blockchain technology. The network utilizes a unique market mechanism where users can create, trade, and resolve prediction markets with native ...</p>
+                    </a>
+                    <a href="https://autonomousprojects.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Autonomous projects
+                            </h3>
+                        <p class="resource-short">outsource your operations to a 3rd party</p>
+                        <p class="resource-description">A decentralized blockchain platform leveraging advanced smart contract architecture to enable autonomous, self-executing project management and governance protocols. The system utilizes a novel consensus mechanism that integrates machine learning algorithms to dynamically allocate resources and opti...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="defi" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">DEFI</h2>
+                    <p class="category-count">23 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://aave.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aave
+                            </h3>
+                        <p class="resource-short">Decentralized finance protocol for borrowing and lending on Ethereum.</p>
+                        <p class="resource-description">Aave is an open-source, non-custodial liquidity protocol that enables users to lend and borrow cryptocurrencies across multiple blockchain networks, primarily utilizing smart contracts to facilitate permissionless financial transactions. The protocol introduces innovative features like flash loans, ...</p>
+                    </a>
+                    <a href="https://setprotocol.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Set Protocol
+                            </h3>
+                        <p class="resource-short">Protocol for creating, managing, and trading tokenized baskets of assets.</p>
+                        <p class="resource-description">Set Protocol is a decentralized finance platform that enables the creation, management, and trading of tokenized baskets of assets, known as Sets. It allows users to bundle multiple cryptocurrencies into a single ERC-20 token, facilitating diversified investment strategies and automated portfolio ma...</p>
+                    </a>
+                    <a href="https://synthetix.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Synthetix
+                            </h3>
+                        <p class="resource-short">Platform for the creation of synthetic assets on Ethereum.</p>
+                        <p class="resource-description">Synthetix is a decentralized derivatives liquidity protocol built on Ethereum that enables the creation and trading of synthetic assets (Synths) which track the value of underlying real-world assets like cryptocurrencies, commodities, and traditional financial instruments. The protocol uses a unique...</p>
+                    </a>
+                    <a href="https://uniswap.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Uniswap
+                            </h3>
+                        <p class="resource-short">Decentralized trading protocol, known for its role in facilitating automated trading of decentralized finance tokens.</p>
+                        <p class="resource-description">Uniswap is a decentralized trading protocol built on the Ethereum blockchain, enabling automated trading of ERC-20 tokens through smart contracts. It utilizes an automated market maker (AMM) model, allowing users to trade directly from their wallets without the need for a centralized order book. Liq...</p>
+                    </a>
+                    <a href="https://www.1inch.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                1inch
+                            </h3>
+                        <p class="resource-short">A decentralized exchange aggregator providing the best token swap prices.</p>
+                        <p class="resource-description">1inch is a decentralized exchange (DEX) aggregator that sources liquidity from various DEXs to offer users the best possible token swap rates. It utilizes smart contract technology to split trades across multiple exchanges, optimizing the swap process for minimal slippage and reduced transaction cos...</p>
+                    </a>
+                    <a href="https://www.balancer.fi/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Balancer
+                            </h3>
+                        <p class="resource-short">A decentralized exchange protocol with automated portfolio management.</p>
+                        <p class="resource-description">Balancer is a decentralized exchange protocol that enables automated portfolio management and liquidity provision on the Ethereum blockchain. It allows users to create customizable liquidity pools with multiple tokens, where each token can have a different weight, enabling more flexible and efficien...</p>
+                    </a>
+                    <a href="https://www.celo.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Celo
+                            </h3>
+                        <p class="resource-short">Blockchain protocol focused on making financial tools accessible to anyone.</p>
+                        <p class="resource-description">Celo is a blockchain platform focused on creating a financial system that is accessible to anyone with a mobile phone, leveraging a proof-of-stake consensus mechanism and stablecoins pegged to various currencies. The platform enables users to send and receive cryptocurrency using phone numbers as id...</p>
+                    </a>
+                    <a href="https://www.compound.finance/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Compound
+                            </h3>
+                        <p class="resource-short">Algorithmic, autonomous interest rate protocol built for developers.</p>
+                        <p class="resource-description">Compound is a decentralized lending and borrowing protocol built on the Ethereum blockchain that allows users to earn interest on cryptocurrency assets or borrow against them using algorithmic, market-based interest rates. The protocol supports multiple ERC-20 tokens and enables users to supply liqu...</p>
+                    </a>
+                    <a href="https://www.dydx.exchange/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                dYdX Exchange
+                            </h3>
+                        <p class="resource-short">Decentralized trading platform for margin trading and derivatives on Ethereum.</p>
+                        <p class="resource-description">dYdX Exchange is a decentralized trading platform that facilitates margin trading and derivatives on the Ethereum blockchain. It leverages smart contracts to enable trustless trading, ensuring that users maintain control over their funds without relying on a centralized intermediary. The platform su...</p>
+                    </a>
+                    <a href="https://www.kyber.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Kyber Network
+                            </h3>
+                        <p class="resource-short">A liquidity protocol that facilitates decentralized token swaps on Ethereum.</p>
+                        <p class="resource-description">Kyber Network is a decentralized liquidity protocol that enables instant token swaps on the Ethereum blockchain with high levels of interoperability and transparency. The protocol uses a dynamic reserve system where multiple liquidity providers can contribute tokens to a shared pool, allowing trader...</p>
+                    </a>
+                    <a href="https://yearn.finance/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Yearn Finance
+                            </h3>
+                        <p class="resource-short">DeFi products for automated yield generation and lending aggregation.</p>
+                        <p class="resource-description">Yearn Finance is an automated DeFi yield aggregation protocol that enables users to optimize their cryptocurrency investments across various lending platforms and liquidity pools through algorithmic strategies. The protocol uses smart contracts to automatically shift user funds between different yie...</p>
+                    </a>
+                    <a href="https://www.1inch.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                1inch
+                            </h3>
+                        <p class="resource-short">A decentralized aggregator for DeFi trades</p>
+                        <p class="resource-description">1inch is a decentralized exchange (DEX) aggregator that intelligently routes cryptocurrency trades across multiple liquidity protocols to optimize for the best possible execution price and lowest transaction fees. By splitting trades across different decentralized exchanges like Uniswap, SushiSwap, ...</p>
+                    </a>
+                    <a href="https://www.balancer.fi" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Balancer
+                            </h3>
+                        <p class="resource-short">multi-asset liquidity protocol</p>
+                        <p class="resource-description">Balancer is a decentralized automated portfolio management and liquidity provision protocol built on Ethereum that enables users to create and manage custom token pools with configurable weights and assets. Unlike traditional automated market makers (AMMs) that typically use 50/50 token allocations,...</p>
+                    </a>
+                    <a href="https://www.curve.fi" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Curve Finance
+                            </h3>
+                        <p class="resource-short">A stablecoin-optimized DEX</p>
+                        <p class="resource-description">Curve Finance is an automated market maker (AMM) protocol specifically designed for stablecoin and wrapped token liquidity pools, utilizing a unique mathematical invariant that minimizes slippage and maximizes capital efficiency. The protocol employs a specialized bonding curve algorithm that allows...</p>
+                    </a>
+                    <a href="https://www.defillama.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DefiLlama
+                            </h3>
+                        <p class="resource-short">DeFi TVL & Ethereum Ecosystem Data</p>
+                        <p class="resource-description">DefiLlama is an open-source analytics platform that aggregates and tracks total value locked (TVL) across multiple blockchain networks and decentralized finance (DeFi) protocols. The platform provides comprehensive, real-time data visualization and comparative metrics for various blockchain ecosyste...</p>
+                    </a>
+                    <a href="https://www.dydx.exchange" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Dydx
+                            </h3>
+                        <p class="resource-short">A decentralized perpetual trading platform</p>
+                        <p class="resource-description">dYdX is a decentralized derivatives exchange built on Ethereum that enables users to trade perpetual contracts with up to 20x leverage using a professional trading interface. The platform leverages zero-knowledge proofs and layer-2 scaling solutions to provide high-performance trading with significa...</p>
+                    </a>
+                    <a href="https://www.indexcoop.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                IndexCoop
+                            </h3>
+                        <p class="resource-short">Leveragged Ether</p>
+                        <p class="resource-description">A great project that experimented full on with the DAO model. Now their primary offering is leveragged Ether.</p>
+                    </a>
+                    <a href="https://www.kyberswap.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                KyberSwap
+                            </h3>
+                        <p class="resource-short">On-chain liquidity aggregation for DeFi</p>
+                        <p class="resource-description">KyberSwap is a decentralized exchange and liquidity aggregator that operates on the Ethereum blockchain. It enables users to swap tokens directly from their wallets with competitive rates by aggregating liquidity from multiple sources. The platform supports a wide range of ERC-20 tokens and provides...</p>
+                    </a>
+                    <a href="https://www.pendle.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Pendle
+                            </h3>
+                        <p class="resource-short">Yield tokenization in DeFi</p>
+                        <p class="resource-description">Pendle is a decentralized finance protocol that enables the tokenization and trading of future yield on various yield-bearing assets. It introduces a dual-token model, where one token represents the principal and the other represents the yield, allowing users to trade these components separately. Th...</p>
+                    </a>
+                    <a href="https://www.sushi.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SushiSwap
+                            </h3>
+                        <p class="resource-short">A community-driven Ethereum DEX</p>
+                        <p class="resource-description">SushiSwap is a decentralized exchange (DEX) built on the Ethereum blockchain, enabling users to swap various ERC-20 tokens directly from their wallets. It operates using an automated market maker (AMM) model, where liquidity providers contribute to liquidity pools and earn fees from trades executed ...</p>
+                    </a>
+                    <a href="https://www.synthetix.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Synthetix
+                            </h3>
+                        <p class="resource-short">Synthetic assets on Ethereum</p>
+                        <p class="resource-description">Synthetix is a decentralized derivatives liquidity protocol built on Ethereum that enables the creation and trading of synthetic assets (Synths) which track the value of underlying real-world assets like cryptocurrencies, commodities, and traditional financial instruments. The protocol uses a unique...</p>
+                    </a>
+                    <a href="https://sablier.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Sablier
+                            </h3>
+                        <p class="resource-short">Crypto payment solution</p>
+                        <p class="resource-description">Sablier is a protocol for real-time, streaming token transfers that enables continuous, minute-by-minute value distribution instead of traditional lump-sum payments. Built on Ethereum, the protocol allows users to create streams where funds are automatically distributed over a predefined time period...</p>
+                    </a>
+                    <a href="https://www.superfluid.finance/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SuperFluid
+                            </h3>
+                        <p class="resource-short">Crypto payment solution</p>
+                        <p class="resource-description">Superfluid is a protocol designed for real-time finance on the Ethereum blockchain, enabling continuous and frictionless transfer of value. It allows users to create streams of tokens that flow automatically and continuously, eliminating the need for discrete transactions. The protocol is built on s...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="data-availability" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Data Availability</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.celestia.org" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Celestia
+                            </h3>
+                        <p class="resource-short">Ethereum Data Availability</p>
+                        <p class="resource-description">Celestia is a modular blockchain network designed to solve scalability and data availability challenges by introducing a novel approach to blockchain architecture. It separates consensus and data availability from execution, allowing developers to create their own execution environments (rollups) th...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="data-science" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Data science</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.youtube.com/@indexed_pod" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Indexed Podcast
+                            </h3>
+                        <p class="resource-short">Technical podcast for Web3 data analysts</p>
+                        <p class="resource-description">Indexed Podcast is a decentralized audio content platform leveraging blockchain technology to create a transparent and fair ecosystem for podcast creators and listeners. The project utilizes smart contracts to facilitate direct monetization, enabling content creators to receive cryptocurrency paymen...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="development-tool" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Development Tool</h2>
+                    <p class="category-count">13 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://docs.ethers.io/v5/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethers.js
+                            </h3>
+                        <p class="resource-short">A complete and compact library for interacting with the Ethereum blockchain in JavaScript.</p>
+                        <p class="resource-description">Ethers.js is a comprehensive JavaScript library designed for interacting with the Ethereum blockchain, providing a simple and consistent API for developers. It supports a wide range of functionalities including wallet management, contract interaction, and blockchain queries, making it a versatile to...</p>
+                    </a>
+                    <a href="https://hardhat.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Hardhat
+                            </h3>
+                        <p class="resource-short">A development environment for Ethereum with built-in compilation and testing.</p>
+                        <p class="resource-description">Hardhat is a comprehensive Ethereum development environment that enables developers to compile, deploy, test, and debug smart contracts with enhanced efficiency. It provides a flexible and extensible framework with a plugin-based architecture, allowing developers to customize their workflow and inte...</p>
+                    </a>
+                    <a href="https://infura.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Infura
+                            </h3>
+                        <p class="resource-short">Provides developers with access to Ethereum and IPFS via APIs without managing full nodes.</p>
+                        <p class="resource-description">Infura is a web3 infrastructure provider that offers scalable and reliable APIs for blockchain networks, primarily Ethereum, allowing developers to connect and interact with decentralized networks without managing their own nodes. By providing instant, high-performance access to Ethereum and IPFS ne...</p>
+                    </a>
+                    <a href="https://trufflesuite.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Truffle Suite
+                            </h3>
+                        <p class="resource-short">A development environment, testing framework, and asset pipeline for Ethereum.</p>
+                        <p class="resource-description">Truffle Suite is a comprehensive blockchain development toolkit primarily designed for Ethereum-based smart contract and decentralized application (dApp) development. It provides developers with a robust set of tools including Truffle (a development environment and testing framework), Ganache (a per...</p>
+                    </a>
+                    <a href="https://web3js.readthedocs.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Web3.js
+                            </h3>
+                        <p class="resource-short">A collection of libraries that allow interaction with a local or remote Ethereum node using HTTP or IPC.</p>
+                        <p class="resource-description">Web3.js is a comprehensive JavaScript library that enables interaction with Ethereum blockchain networks, providing developers with a robust set of tools for building decentralized applications (dApps). It offers a standardized interface for sending HTTP or WebSocket requests to Ethereum nodes, allo...</p>
+                    </a>
+                    <a href="https://www.book.getfoundry.sh" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Foundry
+                            </h3>
+                        <p class="resource-short">Solidity testing and debugging toolkit</p>
+                        <p class="resource-description">Foundry is a comprehensive toolkit designed for testing and debugging Solidity smart contracts. It provides developers with a suite of tools to efficiently write, test, and deploy Ethereum-based applications. The toolkit includes features such as fast compilation, advanced debugging capabilities, an...</p>
+                    </a>
+                    <a href="https://www.alchemy.com/dapps" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Alchemy dapps list
+                            </h3>
+                        <p class="resource-short">Alchemy's dapps list</p>
+                        <p class="resource-description">A comprehensive platform aggregating decentralized applications (dApps) across multiple blockchain networks, offering developers and users a centralized discovery and integration resource. The system leverages advanced metadata indexing and real-time blockchain scanning to provide accurate, up-to-da...</p>
+                    </a>
+                    <a href="https://tenderly.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tenderly
+                            </h3>
+                        <p class="resource-short">Ethereum Smart Contract Debugging & Monitoring</p>
+                        <p class="resource-description">Tenderly is a comprehensive Web3 development and debugging platform that provides advanced blockchain infrastructure for Ethereum and EVM-compatible networks. It offers developers real-time transaction simulation, contract verification, error tracking, and monitoring capabilities across multiple blo...</p>
+                    </a>
+                    <a href="https://www.trufflesuite.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Truffle
+                            </h3>
+                        <p class="resource-short">A development environment for Ethereum</p>
+                        <p class="resource-description">Truffle is a comprehensive development framework designed to streamline smart contract development, testing, and deployment on the Ethereum blockchain. It provides developers with a robust suite of tools that simplify the entire smart contract lifecycle, including a powerful testing framework, scrip...</p>
+                    </a>
+                    <a href="https://www.alchemy.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Alchemy
+                            </h3>
+                        <p class="resource-short">Node and onchain data (RPC Providers)</p>
+                        <p class="resource-description">Alchemy is a leading blockchain development platform that provides infrastructure and tools for building decentralized applications. It offers a suite of APIs and developer tools that simplify the process of interacting with blockchain networks, focusing on reliability and scalability. Alchemy's pla...</p>
+                    </a>
+                    <a href="https://tenderly.co/transaction-simulator" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Transaction simulator
+                            </h3>
+                        <p class="resource-short">simulate your transactions before executing them onchain</p>
+                        <p class="resource-description">A comprehensive blockchain transaction simulation platform designed to model complex financial interactions across multiple cryptocurrency networks. The system leverages advanced probabilistic modeling and smart contract instrumentation to generate high-fidelity transaction scenarios with configurab...</p>
+                    </a>
+                    <a href="https://docs.tenderly.co/developer-explorer/inspect-transaction" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tenderly's inspect transaction
+                            </h3>
+                        <p class="resource-short">next level tx verifications</p>
+                        <p class="resource-description">Tenderly's inspect transaction is a comprehensive blockchain analysis tool that enables developers and blockchain engineers to deeply examine and debug Ethereum transactions with high granularity. By providing detailed insights into transaction execution, gas consumption, state changes, and contract...</p>
+                    </a>
+                    <a href="https://abi.ninja/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                abi Ninja
+                            </h3>
+                        <p class="resource-short">Interact with smart contracts on any EVM chain</p>
+                        <p class="resource-description">ABI Ninja is a web-based tool designed to simplify smart contract interaction across multiple Ethereum Virtual Machine (EVM) compatible blockchain networks. It provides developers and blockchain enthusiasts with a streamlined interface for decoding and executing contract functions without requiring ...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="ethereum-development" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Ethereum Development</h2>
+                    <p class="category-count">31 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://alchemy.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Alchemy
+                            </h3>
+                        <p class="resource-short">Developer platform that enables interaction with Ethereum for building decentralized apps.</p>
+                        <p class="resource-description">Alchemy provides a comprehensive blockchain development platform that simplifies interaction with Ethereum and other blockchain networks through robust APIs, developer tools, and infrastructure services. Their platform enables developers to build, deploy, and scale decentralized applications (dApps)...</p>
+                    </a>
+                    <a href="https://ethereum.org/en/developers/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Developer Resources
+                            </h3>
+                        <p class="resource-short">Official Ethereum resources, tools, and documentation for developers.</p>
+                        <p class="resource-description">Ethereum Developer Resources serves as a comprehensive platform providing technical documentation, tutorials, and guides for developers interested in building decentralized applications (dApps), smart contracts, and blockchain solutions on the Ethereum network. The resource offers detailed technical...</p>
+                    </a>
+                    <a href="https://ethereum.org/en/developers/docs/accounts/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Account Abstraction
+                            </h3>
+                        <p class="resource-short">Introduction to Ethereum’s new account model that improves security and usability.</p>
+                        <p class="resource-description">Ethereum Account Abstraction (ERC-4337) introduces a novel approach to blockchain account management by enabling smart contract wallets that can define custom authentication and transaction execution logic. Unlike traditional externally owned accounts (EOAs), these programmable wallets can implement...</p>
+                    </a>
+                    <a href="https://ethereum.org/en/developers/docs/gas/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Gas Guide
+                            </h3>
+                        <p class="resource-short">Detailed guide on how gas fees work within the Ethereum network.</p>
+                        <p class="resource-description">A comprehensive technical resource for understanding Ethereum's gas mechanism, providing detailed insights into transaction fee calculations, optimization strategies, and network dynamics. The guide offers in-depth analysis of gas pricing, volatility factors, and computational resource allocation wi...</p>
+                    </a>
+                    <a href="https://ethereum.org/en/developers/tutorials/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Tutorials
+                            </h3>
+                        <p class="resource-short">Step-by-step guides and tutorials for Ethereum developers.</p>
+                        <p class="resource-description">Ethereum Tutorials is a comprehensive educational platform designed to provide in-depth technical guidance for developers and blockchain enthusiasts seeking to understand and implement smart contract development, decentralized application (dApp) architecture, and Ethereum ecosystem technologies. The...</p>
+                    </a>
+                    <a href="https://ethereum.org/en/roadmap/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Roadmap
+                            </h3>
+                        <p class="resource-short">Ethereum’s official roadmap clearly laying out upcoming upgrades and developments.</p>
+                        <p class="resource-description">The Ethereum Roadmap represents a comprehensive, multi-phase strategy to enhance the network's scalability, security, and sustainability through a series of interconnected upgrades. Key phases include the Merge (completed in September 2022), which transitioned Ethereum from Proof-of-Work to Proof-of...</p>
+                    </a>
+                    <a href="https://github.com/ConsenSys/ethereum-developer-tools-list" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Developer Tools List
+                            </h3>
+                        <p class="resource-short">A comprehensive list of tools, components, patterns, and platforms for Ethereum development.</p>
+                        <p class="resource-description">Ethereum Developer Tools List is a meticulously curated repository that aggregates and categorizes the most essential tools and resources for blockchain developers working within the Ethereum ecosystem. It encompasses a wide range of development utilities, from smart contract frameworks and testing ...</p>
+                    </a>
+                    <a href="https://remix.ethereum.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Remix IDE
+                            </h3>
+                        <p class="resource-short">A web-based development environment for writing, testing, and deploying Ethereum smart contracts.</p>
+                        <p class="resource-description">Remix IDE is a powerful web-based integrated development environment designed for Ethereum smart contract development. It provides a suite of tools for writing, testing, debugging, and deploying smart contracts written in Solidity. The IDE supports features like static analysis, unit testing, and in...</p>
+                    </a>
+                    <a href="https://soliditylang.org/docs/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Solidity Documentation
+                            </h3>
+                        <p class="resource-short">Comprehensive guide and reference for the Solidity programming language.</p>
+                        <p class="resource-description">Solidity Documentation is an authoritative resource for developers working with the Solidity programming language, which is used for writing smart contracts on the Ethereum blockchain. It provides comprehensive guides, tutorials, and reference materials to facilitate the development of secure and ef...</p>
+                    </a>
+                    <a href="https://www.quicknode.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                QuickNode
+                            </h3>
+                        <p class="resource-short">Provides Ethereum node infrastructure services for faster and easier blockchain access.</p>
+                        <p class="resource-description">QuickNode is a blockchain infrastructure platform that provides fast and reliable access to Ethereum nodes, enabling developers to build and scale decentralized applications with ease. It offers a suite of tools and APIs that streamline the process of interacting with the Ethereum blockchain, reduci...</p>
+                    </a>
+                    <a href="https://www.youtube.com/bankless" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Bankless
+                            </h3>
+                        <p class="resource-short">Ethereum Research Group</p>
+                        <p class="resource-description">Bankless is a media platform and educational ecosystem focused on decentralized finance (DeFi) and cryptocurrency adoption, primarily centered on Ethereum and blockchain technologies. Founded by Ryan Sean Adams and David Hoffman, the organization provides in-depth research, podcasts, newsletters, an...</p>
+                    </a>
+                    <a href="https://consensys.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Consensys
+                            </h3>
+                        <p class="resource-short">Ethereum conglomerate created by Ethereum's co-founder Joseph Lubin</p>
+                        <p class="resource-description">Consensys is a blockchain technology company founded by Joseph Lubin, one of the co-founders of Ethereum. It focuses on building decentralized applications (dApps) and developer tools primarily for the Ethereum blockchain. The company offers a suite of products and services, including Infura for blo...</p>
+                    </a>
+                    <a href="https://eips.ethereum.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum EIPs
+                            </h3>
+                        <p class="resource-short">Ethereum Improvement Proposals</p>
+                        <p class="resource-description">Ethereum Improvement Proposals (EIPs) are design documents providing information to the Ethereum community, describing new features or processes for the Ethereum platform. They serve as the primary mechanism for proposing changes to the Ethereum protocol, documenting design decisions, and ensuring c...</p>
+                    </a>
+                    <a href="https://www.ethereum.org" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum's #1 website
+                            </h3>
+                        <p class="resource-short">Ethereum's foundation website</p>
+                        <p class="resource-description">Ethereum's #1 website is a decentralized platform that provides comprehensive data, analytics, and exploration tools for the Ethereum blockchain ecosystem. It offers real-time transaction tracking, smart contract verification, token information, and network performance metrics through an intuitive i...</p>
+                    </a>
+                    <a href="https://www.ethresear.ch" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Eth Research
+                            </h3>
+                        <p class="resource-short">Ethereum Scaling Research Forum</p>
+                        <p class="resource-description">A Forum for technical Ethereum geeks .</p>
+                    </a>
+                    <a href="https://www.flashbots.net" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Flashbots
+                            </h3>
+                        <p class="resource-short">Ethereum’s primary MEV mitigation research group</p>
+                        <p class="resource-description">Flashbots is an open-source research and development organization focused on mitigating the negative externalities of Miner Extractable Value (MEV) in blockchain ecosystems, particularly Ethereum. Their core innovation is a private transaction relaying infrastructure called MEV-Boost, which allows v...</p>
+                    </a>
+                    <a href="https://www.github.com/ethereum" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum's github
+                            </h3>
+                        <p class="resource-short">Open-source Ethereum code & research</p>
+                        <p class="resource-description">Ethereum's GitHub repository serves as the primary collaborative platform for the Ethereum blockchain's core protocol development, hosting the reference implementation of the Ethereum protocol written predominantly in Go. The repository contains critical codebases like the Ethereum client (geth), co...</p>
+                    </a>
+                    <a href="https://www.github.com/ethereum/research/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Academic Papers Archive
+                            </h3>
+                        <p class="resource-short">Ethereum Academic Papers Archive</p>
+                        <p class="resource-description">The Ethereum Academic Papers Archive is a comprehensive repository collecting scholarly research papers focused on blockchain technology, cryptography, consensus mechanisms, and protocol design specifically related to Ethereum and its ecosystem. It serves as a centralized resource for researchers, a...</p>
+                    </a>
+                    <a href="https://scaffoldeth.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                scaffoldeth
+                            </h3>
+                        <p class="resource-short">Ethereum development framework</p>
+                        <p class="resource-description">ScaffoldETH is a comprehensive Ethereum development framework designed to streamline the process of building decentralized applications (dApps). It provides developers with a robust set of tools, including pre-configured smart contracts, a React-based frontend, and a local Ethereum network for testi...</p>
+                    </a>
+                    <a href="https://www.l2beat.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                L2beat
+                            </h3>
+                        <p class="resource-short">Layer 2 adoption tracke</p>
+                        <p class="resource-description">L2beat is a comprehensive research and analytics platform that provides in-depth insights into Layer 2 scaling solutions for Ethereum, offering detailed risk assessments, comparative analysis, and technical transparency about various Layer 2 protocols. Their platform systematically evaluates Layer 2...</p>
+                    </a>
+                    <a href="https://www.linea.build" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Linea
+                            </h3>
+                        <p class="resource-short">Consensys-built zkEVM</p>
+                        <p class="resource-description">Linea is a zero-knowledge Ethereum Layer 2 scaling solution developed by ConsenSys that utilizes zkSync technology to enable faster and more cost-effective transactions. It employs validity proofs to verify transaction correctness on the Ethereum mainnet, allowing for native compatibility with Ether...</p>
+                    </a>
+                    <a href="https://mevboost.pics/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MEV-Boost
+                            </h3>
+                        <p class="resource-short">Proposer-builder separation for Ethereum</p>
+                        <p class="resource-description">MEV-Boost is a middleware solution designed to optimize block building and maximize validator rewards in proof-of-stake Ethereum networks by enabling validators to outsource block construction to specialized block builders. It implements a market-driven approach where block builders compete to creat...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@EatTheBlocks" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Eat The Blocks
+                            </h3>
+                        <p class="resource-short">Tutorials</p>
+                        <p class="resource-description">Eat The Blocks is a platform offering tutorials and resources for Ethereum developers. It focuses on smart contract development, decentralized applications (dApps), and blockchain programming. The content is designed to help developers build and deploy projects on the Ethereum network. It provides p...</p>
+                    </a>
+                    <a href="https://ethresear.ch/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethresearch
+                            </h3>
+                        <p class="resource-short">A semi-public forum for participating in Ethereum’s research efforts</p>
+                        <p class="resource-description">Ethresearch represents a collaborative platform for advanced Ethereum protocol research and development, focusing on scaling solutions, consensus mechanisms, and network improvements. The initiative brings together researchers, developers, and cryptographers to explore innovative approaches to block...</p>
+                    </a>
+                    <a href="https://docs.flashbots.net/new-to-mev" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Flashbots' documentation
+                            </h3>
+                        <p class="resource-short">MEV 101</p>
+                        <p class="resource-description">Flashbots is an open-source research and development organization focused on mitigating harmful miner extractable value (MEV) and creating transparent, permissionless infrastructure for Ethereum block space. The project introduces a novel transaction routing mechanism called MEV-Boost, which allows ...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@flashbots" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Flashbots' youtube
+                            </h3>
+                        <p class="resource-short">All things MEV are discussed on Flashbots' channel.</p>
+                        <p class="resource-description">Flashbots is a research and development organization focused on mitigating negative externalities in Ethereum's maximum extractable value (MEV) ecosystem through transparent and permissionless MEV infrastructure. Their core product, MEV-Boost, enables validators to access a competitive block-buildin...</p>
+                    </a>
+                    <a href="https://epf.wiki/#/eps/intro" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum wikipedia
+                            </h3>
+                        <p class="resource-short">The EPF Wiki is a collection of technical resources about the Ethereum protocol.</p>
+                        <p class="resource-description">The Ethereum Protocol Fellowship (EPF) Wiki serves as a comprehensive technical resource for developers, researchers, and enthusiasts seeking in-depth knowledge about the Ethereum protocol's inner workings. It provides detailed documentation, technical specifications, research papers, and collaborat...</p>
+                    </a>
+                    <a href="https://ethereumadoption.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Adoption
+                            </h3>
+                        <p class="resource-short">All things built on Ethereum</p>
+                        <p class="resource-description">All things built on Ethereum</p>
+                    </a>
+                    <a href="https://x.com/hwwonx" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Hsiao-Wei Wang
+                            </h3>
+                        <p class="resource-short">Ethereum foundation Co-Executive Director</p>
+                        <p class="resource-description">A decentralized blockchain platform leveraging advanced cryptographic protocols to enhance transaction privacy and scalability through a novel consensus mechanism. The project implements a hybrid layer-2 scaling solution that integrates zero-knowledge proofs with a sharded network architecture to im...</p>
+                    </a>
+                    <a href="https://x.com/tkstanczak" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tomasz Stańczak
+                            </h3>
+                        <p class="resource-short">Ethereum foundation Co-Executive Director</p>
+                        <p class="resource-description">Ethereum foundation Co-Executive Director</p>
+                    </a>
+                    <a href="https://x.com/davwals" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                David Walsh
+                            </h3>
+                        <p class="resource-short">Enterprise Lead at the Ethereum foundation</p>
+                        <p class="resource-description">A decentralized blockchain protocol leveraging advanced cryptographic techniques to enable secure, privacy-preserving transactions across distributed networks. The system implements a novel consensus mechanism that combines proof-of-stake with a unique adaptive sharding approach to enhance scalabili...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="ethereum-mechanisms" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Ethereum mechanisms</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.ultrasound.money/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                ultrasound money
+                            </h3>
+                        <p class="resource-short">Ethereum’s Economic Model – How ETH issuance & burning works</p>
+                        <p class="resource-description">Ultrasound Money represents an Ethereum-based economic model that aims to create deflationary dynamics through a novel burning mechanism that permanently removes ETH from circulation during network transactions. The core concept leverages Ethereum's proof-of-stake consensus mechanism and EIP-1559 fe...</p>
+                    </a>
+                    <a href="https://www.vitalik.ca" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum
+                            </h3>
+                        <p class="resource-short">Deep Ethereum research & cryptoeconomic insights</p>
+                        <p class="resource-description">Ethereum is a decentralized, open-source blockchain platform that enables smart contract functionality and supports the creation of decentralized applications (dApps) through its Turing-complete programming language, Solidity. Utilizing a proof-of-stake consensus mechanism since the 2022 "Merge" upg...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="ethereum-treasury-company" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Ethereum treasury company</h2>
+                    <p class="category-count">7 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.gamesquare.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                GameSquare Holdings
+                            </h3>
+                        <p class="resource-short">A digital media and entertainment company, GameSquare has also allocated a portion of its treasury to Ethereum. This move aligns with the increasing integration of blockchain and NFT technology within the gaming and creator economies.</p>
+                        <p class="resource-description">A digital media and entertainment company, GameSquare has also allocated a portion of its treasury to Ethereum. This move aligns with the increasing integration of blockchain and NFT technology within the gaming and creator economies.</p>
+                    </a>
+                    <a href="https://www.strategicethreserve.xyz/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Strategic Reserve
+                            </h3>
+                        <p class="resource-short">List of all the entities that have Ether on their balance sheet.</p>
+                        <p class="resource-description">List of all the entities that have Ether on their balance sheet.</p>
+                    </a>
+                    <a href="https://bitminetech.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                BitMine Immersion
+                            </h3>
+                        <p class="resource-short">An Ethereum treasury company</p>
+                        <p class="resource-description">An Ethereum treasury company</p>
+                    </a>
+                    <a href="https://www.sharplink.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SharpLink Gaming
+                            </h3>
+                        <p class="resource-short">An Ethereum treasury company</p>
+                        <p class="resource-description">An Ethereum treasury company</p>
+                    </a>
+                    <a href="https://ethermachine.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Ether Machine
+                            </h3>
+                        <p class="resource-short">An Ethereum treasury company</p>
+                        <p class="resource-description">An Ethereum treasury company</p>
+                    </a>
+                    <a href="https://bit-digital.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Bit Digital
+                            </h3>
+                        <p class="resource-short">Traditionally a Bitcoin mining company, Bit Digital has been actively diversifying its treasury into Ethereum. This move highlights a strategic shift to capitalize on Ethereum's staking rewards and the growth of its ecosystem.</p>
+                        <p class="resource-description">Traditionally a Bitcoin mining company, Bit Digital has been actively diversifying its treasury into Ethereum. This move highlights a strategic shift to capitalize on Ethereum's staking rewards and the growth of its ecosystem.</p>
+                    </a>
+                    <a href="https://www.ethzilla.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                EthZilla
+                            </h3>
+                        <p class="resource-short">An Ethereum treasury company</p>
+                        <p class="resource-description">An Ethereum treasury company</p>
+                    </a>
+                </div>
+            </section>
+            <section id="giga-brain" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Giga brain</h2>
+                    <p class="category-count">7 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://x.com/ethereumfndn/status/1895442343689363652?s=46" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                tweet by the foundation
+                            </h3>
+                        <p class="resource-short">If you want to expand your horizon on Twitter you can follow those shadowy giga brains</p>
+                        <p class="resource-description">If you want to expand your horizon on Twitter you can follow those shadowy giga brains</p>
+                    </a>
+                    <a href="https://www.twitter.com/adietrichs" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ansgar Dietrichs
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">Inspiration on who to follow on Twitter.</p>
+                    </a>
+                    <a href="https://www.twitter.com/barnabemonnot" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Barnabé Monnot
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">Barnabé Monnot is a researcher and protocol developer primarily focused on Ethereum scaling and cryptoeconomic design, with significant contributions to the Ethereum ecosystem, particularly in zero-knowledge proof technologies and rollup architectures. He currently works with the Robust Incentives G...</p>
+                    </a>
+                    <a href="https://www.twitter.com/dankrad" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Dankrad Feist
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">Dankrad Feist is a researcher at the Ethereum Foundation, focusing on Ethereum 2.0 and its consensus mechanisms. He contributes to the development of proof-of-stake protocols and sharding, aiming to enhance Ethereum's scalability and security. Feist is known for his deep technical insights and activ...</p>
+                    </a>
+                    <a href="https://www.twitter.com/dannyryan" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Danny Ryan
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">EF leadership</p>
+                    </a>
+                    <a href="https://www.twitter.com/drakefjustin" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Justin Drake
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">EF leadership</p>
+                    </a>
+                    <a href="https://www.twitter.com/VitalikButerin" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Vitalik Buterin
+                            </h3>
+                        <p class="resource-short">Inspiration on who to follow on Twitter.</p>
+                        <p class="resource-description">A pioneering computer programmer and co-founder of Ethereum, Vitalik Buterin is a thought leader in blockchain technology who conceptualized a decentralized platform for smart contracts and distributed applications beyond Bitcoin's monetary focus. He published the Ethereum whitepaper in 2013 and has...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="governance" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Governance</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://snapshot.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Snapshot
+                            </h3>
+                        <p class="resource-short">A decentralized voting platform that facilitates gasless governance on Ethereum.</p>
+                        <p class="resource-description">Snapshot is a decentralized voting platform that enables gasless, off-chain governance proposals for DAOs and Web3 communities, allowing token holders to signal their preferences without incurring blockchain transaction costs. The platform supports multiple voting strategies, including weighted voti...</p>
+                    </a>
+                    <a href="https://www.snapshot.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Snapshot
+                            </h3>
+                        <p class="resource-short">Off-chain gasless multi-governance client with easy proposal creation.</p>
+                        <p class="resource-description">Snapshot is a decentralized voting platform that enables gasless, off-chain governance proposals and voting for blockchain-based communities and DAOs. It allows token holders to create and participate in governance decisions without incurring blockchain transaction fees, leveraging digital signature...</p>
+                    </a>
+                    <a href="https://ethereum-magicians.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum magicians
+                            </h3>
+                        <p class="resource-short">Ethereum Governance Forum - Discussions on Protocol Changes</p>
+                        <p class="resource-description">Ethereum Magicians is a community-driven forum focused on the discussion and development of Ethereum protocol changes. It serves as a collaborative space for developers, researchers, and stakeholders to propose, debate, and refine Ethereum Improvement Proposals (EIPs). The platform emphasizes open g...</p>
+                    </a>
+                    <a href="https://www.tally.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tally
+                            </h3>
+                        <p class="resource-short">On-chain DAO governance dashboard</p>
+                        <p class="resource-description">Tally is an on-chain governance dashboard designed to facilitate decentralized autonomous organization (DAO) management by providing tools for proposal creation, voting, and analytics. It enables users to interact with DAOs directly on the blockchain, ensuring transparency and efficiency in governan...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="grants---bounties" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Grants / bounties</h2>
+                    <p class="category-count">10 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.gitcoin.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Gitcoin
+                            </h3>
+                        <p class="resource-short">Platform for funding public goods and open-source projects using Ethereum.</p>
+                        <p class="resource-description">Gitcoin is an open-source platform that leverages blockchain technology to fund and support digital public goods, primarily focusing on open-source software development and community-driven initiatives. The platform utilizes quadratic funding, a novel crowdfunding mechanism that amplifies the impact...</p>
+                    </a>
+                    <a href="https://www.arbitrum.foundation/grants/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Arbitrum grants
+                            </h3>
+                        <p class="resource-short">Arbitrum Grants & Developer Incentives</p>
+                        <p class="resource-description">Arbitrum Grants is a decentralized funding mechanism designed to support and accelerate innovation within the Arbitrum ecosystem by providing financial resources to developers, researchers, and projects building on the Layer 2 scaling solution. The program leverages a community-driven approach to al...</p>
+                    </a>
+                    <a href="https://www.ethereum.foundation/fellowship/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Foundation Fellowship
+                            </h3>
+                        <p class="resource-short">Ethereum Foundation Fellowship</p>
+                        <p class="resource-description">The Ethereum Foundation Fellowship is a targeted program designed to support and empower innovative developers, researchers, and contributors working on critical infrastructure and novel implementations within the Ethereum ecosystem. By providing funding, mentorship, and resources, the fellowship ai...</p>
+                    </a>
+                    <a href="https://www.ethereum.foundation/grants/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Foundation Grants
+                            </h3>
+                        <p class="resource-short">Ethereum Foundation Grants</p>
+                        <p class="resource-description">The Ethereum Foundation Grants program supports critical infrastructure, research, and development initiatives within the Ethereum ecosystem through targeted funding mechanisms. Grants are allocated across multiple domains including protocol research, layer 2 scaling solutions, cryptographic advance...</p>
+                    </a>
+                    <a href="https://www.ethereum.foundation/public-goods/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Foundation Public Goods Funding
+                            </h3>
+                        <p class="resource-short">Ethereum Foundation Public Goods Funding</p>
+                        <p class="resource-description">The Ethereum Foundation Public Goods Funding initiative addresses critical infrastructure and development needs within the Ethereum ecosystem through strategic resource allocation. By leveraging quadratic funding mechanisms and community-driven grant processes, the program enables decentralized supp...</p>
+                    </a>
+                    <a href="https://www.immunefi.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Immunefi
+                            </h3>
+                        <p class="resource-short">Bug bounty platform for Ethereum</p>
+                        <p class="resource-description">Immunefi is a leading bug bounty platform specifically designed for the Ethereum ecosystem and other blockchain projects. It connects white-hat hackers with blockchain projects to identify and resolve security vulnerabilities before they can be exploited. The platform offers a structured environment...</p>
+                    </a>
+                    <a href="https://www.molochdao.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MolochDAO
+                            </h3>
+                        <p class="resource-short">Funding Ethereum Research & Infrastructure</p>
+                        <p class="resource-description">MolochDAO is a decentralized autonomous organization (DAO) framework designed to facilitate collaborative investment in Ethereum-based projects through a novel governance mechanism. Its smart contract architecture enables members to pool capital, propose and vote on funding allocations, and programm...</p>
+                    </a>
+                    <a href="https://www.passport.gitcoin.co" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Gitcoin
+                            </h3>
+                        <p class="resource-short">Ethereum-Based Sybil Resistance & Reputation</p>
+                        <p class="resource-description">Gitcoin is an open-source platform that leverages blockchain technology to fund and support digital public goods, primarily focusing on open-source software development and community-driven initiatives. The platform utilizes quadratic funding, a novel crowdfunding mechanism that amplifies the impact...</p>
+                    </a>
+                    <a href="https://protocol-guild.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Protocol Guild
+                            </h3>
+                        <p class="resource-short">Funding Ethereum Core developers</p>
+                        <p class="resource-description">Protocol Guild is a collaborative funding mechanism designed to support Ethereum's core protocol developers through a collectively managed funding pool. The project aggregates donations from across the Ethereum ecosystem and distributes them equitably to contributors based on their validated partici...</p>
+                    </a>
+                    <a href="https://docs.google.com/spreadsheets/d/1J1KYIkDaq6aXwY4zCydC6zEXg38UQGbNC-ugPZaiviE/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Grants list
+                            </h3>
+                        <p class="resource-short">A list of organizations giving out grants</p>
+                        <p class="resource-description">Grant Central</p>
+                    </a>
+                </div>
+            </section>
+            <section id="hackathon" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Hackathon</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.ethglobal.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                ETHGlobal
+                            </h3>
+                        <p class="resource-short">Hackathons as a Path to Web3 Careers</p>
+                        <p class="resource-description">ETHGlobal organizes hackathons and events focused on Ethereum and Web3 technologies. It provides a platform for developers to collaborate, innovate, and build decentralized applications. Participants gain exposure to cutting-edge blockchain tools and connect with industry experts. ETHGlobal events s...</p>
+                    </a>
+                    <a href="https://devfolio.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Devfolio
+                            </h3>
+                        <p class="resource-short">Hacker info center</p>
+                        <p class="resource-description">Devfolio is a comprehensive platform designed to streamline hackathon participation and management, providing developers with tools to discover, register for, and collaborate on innovative tech events. The platform offers features like team formation, project submission, and judging interfaces that ...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="hardware-wallet" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Hardware Wallet</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.ledger.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ledger
+                            </h3>
+                        <p class="resource-short">Hardware wallet for securely storing Ethereum and other cryptocurrencies.</p>
+                        <p class="resource-description">Ledger is a leading provider of hardware wallets designed to securely store cryptocurrencies like Ethereum and Bitcoin. It offers a robust security architecture that combines a secure element and a proprietary operating system to protect users' private keys from potential cyber threats. The device s...</p>
+                    </a>
+                    <a href="https://trezor.io/trezor-keep-metal-24-word?srsltid=AfmBOoqEc3vwXNf2tHgDE29isKXbrq3RqKaZED5-dQkXVXTDV7gaDeYX" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Trezor
+                            </h3>
+                        <p class="resource-short">seedphrase hardware</p>
+                        <p class="resource-description">Trezor is a hardware wallet designed to securely store cryptocurrency private keys offline, protecting them from online threats. It supports a wide range of cryptocurrencies and provides users with a secure way to manage their digital assets through a user-friendly interface.</p>
+                    </a>
+                </div>
+            </section>
+            <section id="institutionalization" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Institutionalization</h2>
+                    <p class="category-count">3 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.entethalliance.org" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Enterprise Ethereum Alliance
+                            </h3>
+                        <p class="resource-short">corporate adoption effort</p>
+                        <p class="resource-description">The Enterprise Ethereum Alliance (EEA) is a collaborative consortium that aims to develop open blockchain specifications and standards for enterprise-grade Ethereum implementations, bringing together technology vendors, research institutions, and blockchain experts. By creating a standardized framew...</p>
+                    </a>
+                    <a href="https://www.maple.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Maple Finance
+                            </h3>
+                        <p class="resource-short">Institutional Credit Markets on Ethereum</p>
+                        <p class="resource-description">Maple Finance is a decentralized finance platform that facilitates institutional credit markets on the Ethereum blockchain. It provides a framework for undercollateralized lending, allowing institutions to access capital without the need for excessive collateral. The platform utilizes smart contract...</p>
+                    </a>
+                    <a href="https://entethalliance.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Alliance
+                            </h3>
+                        <p class="resource-short">Ethereum's corporate adoption organization</p>
+                        <p class="resource-description">The Enterprise Ethereum Alliance (EEA) is a collaborative industry consortium aimed at developing open blockchain specifications that drive alignment and interoperability for business-grade blockchain implementations. Founded in 2017, the organization brings together Fortune 500 companies, startups,...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="insurance" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Insurance</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://nexusmutual.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Nexus Mutual
+                            </h3>
+                        <p class="resource-short">Decentralized insurance platform on Ethereum providing cover for smart contract risks.</p>
+                        <p class="resource-description">Nexus Mutual is a decentralized insurance platform built on Ethereum that offers coverage for smart contract risks, allowing users to pool their funds and share risk collectively. It operates as a mutual, where members can purchase cover, assess claims, and participate in governance decisions.</p>
+                    </a>
+                </div>
+            </section>
+            <section id="job-board" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Job board</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.cryptojobslist.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                cryptojobslist
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">A decentralized blockchain-based platform designed to connect global tech talent with blockchain and web3 job opportunities, leveraging smart contract technology to facilitate transparent and secure hiring processes. The platform utilizes tokenized reputation systems and verifiable credential mechan...</p>
+                    </a>
+                    <a href="https://web3.career/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Web3 Career
+                            </h3>
+                        <p class="resource-short">Job board dedicated to web3</p>
+                        <p class="resource-description">Web3 Career is a specialized job platform focused exclusively on connecting talent with blockchain, cryptocurrency, and decentralized technology employment opportunities across the globe. The platform aggregates job listings from various Web3 companies, startups, and protocols, catering specifically...</p>
+                    </a>
+                    <a href="https://www.ethereumjobboard.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Job board
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                    <a href="https://jobs.lever.co/ethereumfoundation" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                open positions at the foundation
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                    <a href="https://jobstash.xyz/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Job Stash
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                    <a href="https://cryptocurrencyjobs.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Crypto currency jobs
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                    <a href="https://web3.career/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Web3 career
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                    <a href="https://cryptovalley.jobs/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Crypto Valley Jobs
+                            </h3>
+                        <p class="resource-short">Ethereum Jobs Board</p>
+                        <p class="resource-description">Ethereum Jobs Board</p>
+                    </a>
+                </div>
+            </section>
+            <section id="lending" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Lending</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.aave.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                aave
+                            </h3>
+                        <p class="resource-short">decentralized lending protocol</p>
+                        <p class="resource-description">Aave is an open-source, non-custodial decentralized finance (DeFi) protocol that enables users to lend and borrow cryptocurrencies across multiple blockchain networks, primarily utilizing smart contracts on Ethereum. The platform allows participants to earn interest on deposited digital assets or ta...</p>
+                    </a>
+                    <a href="https://www.compound.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Compound
+                            </h3>
+                        <p class="resource-short">A decentralized lending and borrowing protocol</p>
+                        <p class="resource-description">Compound is a decentralized lending and borrowing protocol built on the Ethereum blockchain that allows users to earn interest on cryptocurrency assets or borrow against them using algorithmic, market-based interest rates. The protocol supports multiple ERC-20 tokens and enables users to supply liqu...</p>
+                    </a>
+                    <a href="https://www.euler.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Euler Finance
+                            </h3>
+                        <p class="resource-short">An innovative lending protocol</p>
+                        <p class="resource-description">Euler Finance is a decentralized lending protocol built on Ethereum that introduces novel capital efficiency mechanisms for lending and borrowing crypto assets. The platform utilizes advanced risk management techniques, including dynamic borrowing limits and isolated markets, which allow users to in...</p>
+                    </a>
+                    <a href="https://www.radiant.capital" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Radiant Capital
+                            </h3>
+                        <p class="resource-short">Cross-chain lending and borrowing</p>
+                        <p class="resource-description">Radiant Capital is a cross-chain lending and borrowing protocol that enables users to deposit and borrow assets across multiple blockchain networks with a unified liquidity market. Built on LayerZero's cross-chain messaging infrastructure, the protocol allows for seamless asset transfers and lending...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="margin-trading" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Margin Trading</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://dydx.exchange/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                dYdX
+                            </h3>
+                        <p class="resource-short">Platform for decentralized margin trading and derivatives.</p>
+                        <p class="resource-description">dYdX is a decentralized exchange platform that facilitates margin trading and derivatives on the Ethereum blockchain. It leverages smart contracts to enable users to trade with leverage, offering perpetual contracts and spot trading without the need for a centralized intermediary. The platform utili...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="market-research" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Market research</h2>
+                    <p class="category-count">7 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.cryptotaxcalculator.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                CryptoTaxCalculator
+                            </h3>
+                        <p class="resource-short">Ethereum Capital Gains & FIFO/LIFO Accounting</p>
+                        <p class="resource-description">This tool helps users verify Safe transaction hashes before signing them. It calculates the domain, message, and Safe transaction hashes by retrieving transaction details from either manual input or the Safe transaction service API and computing the hashes using the EIP-712 standard.</p>
+                    </a>
+                    <a href="https://defillama.com/raises" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DefiLlama raises
+                            </h3>
+                        <p class="resource-short">crypto projects funding tracker</p>
+                        <p class="resource-description">The best place to follow up on the industry news about raises that happened in our Industry.</p>
+                    </a>
+                    <a href="https://www.messari.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Messari
+                            </h3>
+                        <p class="resource-short">Ethereum Ecosystem Research & Reports</p>
+                        <p class="resource-description">Messari is a crypto research and data analytics platform that provides in-depth analysis, reports, and tools for the cryptocurrency ecosystem, focusing on transparency and informed decision-making. It offers a comprehensive suite of resources for investors, developers, and analysts to track and unde...</p>
+                    </a>
+                    <a href="https://www.thedefiant.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                the Defiant
+                            </h3>
+                        <p class="resource-short">Industry Insights</p>
+                        <p class="resource-description">The Defiant is a pioneering media platform and Web3 ecosystem focused on decentralized finance (DeFi) that provides in-depth analysis, cutting-edge journalism, and strategic insights into blockchain innovation and emerging financial technologies. Founded by Camila Russo, a former Bloomberg journalis...</p>
+                    </a>
+                    <a href="https://www.tokenterminal.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Token Terminal
+                            </h3>
+                        <p class="resource-short">Financial Data for Ethereum Protocols</p>
+                        <p class="resource-description">Token Terminal is a comprehensive data analytics platform that provides in-depth financial metrics and insights for blockchain protocols and decentralized applications (dApps), primarily focusing on Ethereum and other major blockchain ecosystems. The platform aggregates and normalizes complex on-cha...</p>
+                    </a>
+                    <a href="https://bitwiseinvestments.com/crypto-market-insights/crypto-market-review-q4-2024" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                BitWise crypto report
+                            </h3>
+                        <p class="resource-short">A detailed report written by Bitwise's analysts</p>
+                        <p class="resource-description">A detailed report written by Bitwise's analysts</p>
+                    </a>
+                    <a href="https://www.oakinvest.fr/oakresearch-en" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                https://www.oakinvest.fr/oakresearch-en
+                            </h3>
+                        <p class="resource-short">A research group that shares insights.</p>
+                        <p class="resource-description">A research group that shares insights.</p>
+                    </a>
+                </div>
+            </section>
+            <section id="marketing" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Marketing</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://x.com/yashjhade/status/1899463377589821443" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                web3 marketing agency tier list
+                            </h3>
+                        <p class="resource-short">web3 marketing agency tier list</p>
+                        <p class="resource-description">web3 marketing agency tier list</p>
+                    </a>
+                </div>
+            </section>
+            <section id="nft" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">NFT</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://opensea.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                OpenSea
+                            </h3>
+                        <p class="resource-short">Largest marketplace for buying and selling NFTs.</p>
+                        <p class="resource-description">OpenSea is a decentralized marketplace for buying, selling, and trading non-fungible tokens (NFTs) across various blockchain networks. It supports a wide range of digital assets, including art, domain names, virtual worlds, and collectibles, leveraging smart contracts to facilitate secure and transp...</p>
+                    </a>
+                    <a href="https://rarible.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Rarible
+                            </h3>
+                        <p class="resource-short">Community-owned NFT marketplace with decentralized creation and trading.</p>
+                        <p class="resource-description">Rarible is a decentralized marketplace for digital assets and non-fungible tokens (NFTs) built on the Ethereum blockchain, enabling creators to mint, sell, and trade unique digital collectibles and artwork. The platform utilizes a governance token (RARI) that allows community members to participate ...</p>
+                    </a>
+                    <a href="https://www.axieinfinity.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Axie Infinity
+                            </h3>
+                        <p class="resource-short">A blockchain-based game where players can collect, breed, and battle NFT creatures called Axies.</p>
+                        <p class="resource-description">Axie Infinity is a blockchain-based play-to-earn game developed by Sky Mavis that leverages Ethereum's blockchain and the Ronin sidechain to enable players to own, trade, and battle digital creatures called Axies as non-fungible tokens (NFTs). The game's economic model allows players to earn cryptoc...</p>
+                    </a>
+                    <a href="https://www.larvalabs.com/cryptopunks" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                CryptoPunks
+                            </h3>
+                        <p class="resource-short">One of the first NFT projects on Ethereum, offering digital collectibles.</p>
+                        <p class="resource-description">CryptoPunks is a pioneering NFT project on the Ethereum blockchain, consisting of 10,000 unique algorithmically generated 24x24 pixel art characters. Each CryptoPunk is a distinct ERC-721 token, which has become a standard for non-fungible tokens, allowing for provable ownership and scarcity. The pr...</p>
+                    </a>
+                    <a href="https://www.opensea.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                OpenSea
+                            </h3>
+                        <p class="resource-short">Marketplace for buying, selling, and discovering rare digital assets (NFTs).</p>
+                        <p class="resource-description">OpenSea is a decentralized marketplace for buying, selling, and discovering non-fungible tokens (NFTs) across various blockchain networks. It supports a wide range of digital assets, including art, domain names, virtual worlds, and collectibles, leveraging smart contracts to facilitate secure and tr...</p>
+                    </a>
+                    <a href="https://www.superrare.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SuperRare
+                            </h3>
+                        <p class="resource-short">A curated platform for artists to create and sell digital art NFTs.</p>
+                        <p class="resource-description">SuperRare is a blockchain-based digital art marketplace that leverages Ethereum's smart contract infrastructure to enable artists to mint, authenticate, and sell unique digital artworks as non-fungible tokens (NFTs). The platform provides a curated environment where digital artists can tokenize thei...</p>
+                    </a>
+                    <a href="https://www.opensea.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                OpenSea
+                            </h3>
+                        <p class="resource-short">The largest NFT marketplace</p>
+                        <p class="resource-description">OpenSea is a decentralized marketplace for non-fungible tokens (NFTs), facilitating the buying, selling, and trading of digital assets on the blockchain. It supports a wide range of NFTs, including art, domain names, virtual worlds, and collectibles, leveraging smart contracts primarily on the Ether...</p>
+                    </a>
+                    <a href="https://www.iyk.app/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                IYK
+                            </h3>
+                        <p class="resource-short">NFT chip manufacturer</p>
+                        <p class="resource-description">Wearable galore</p>
+                    </a>
+                </div>
+            </section>
+            <section id="news" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">News</h2>
+                    <p class="category-count">9 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://rekt.news/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Rekt news
+                            </h3>
+                        <p class="resource-short">Ethereum DeFi Hacks & Lessons Learned</p>
+                        <p class="resource-description">Rekt News is a platform dedicated to analyzing and reporting on security breaches, hacks, and vulnerabilities within the decentralized finance (DeFi) ecosystem. It provides in-depth post-mortem analyses of incidents, offering insights into the technical failures and lessons learned from each event. ...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@TheDailyGwei" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Daily Gwei
+                            </h3>
+                        <p class="resource-short">EVM news</p>
+                        <p class="resource-description">The Daily Gwei is an educational platform and content series primarily focused on Ethereum ecosystem analysis and insights, created and curated by Anthony Sassano. It provides daily commentary, technical breakdowns, and strategic perspectives on blockchain development, decentralized finance (DeFi), ...</p>
+                    </a>
+                    <a href="https://blockworks.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Blockworks
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">Blockworks is a digital media platform and content ecosystem focused on providing in-depth analysis, news, and insights specifically tailored to cryptocurrency, blockchain technology, and digital asset professionals. The organization produces a wide range of multimedia content including articles, po...</p>
+                    </a>
+                    <a href="https://cointelegraph.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Cointelegraph
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">Cointelegraph is a prominent digital media platform focused on blockchain technology, cryptocurrencies, and decentralized finance (DeFi), providing comprehensive news, analysis, and investigative reporting for professionals and enthusiasts in the crypto ecosystem. Founded in 2013, the platform has e...</p>
+                    </a>
+                    <a href="https://decrypt.co/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Decrypt
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">Decrypt is a decentralized protocol designed to provide secure, privacy-preserving data sharing and computation across distributed networks. Utilizing advanced zero-knowledge proof techniques and homomorphic encryption, the platform enables users to selectively reveal and process sensitive informati...</p>
+                    </a>
+                    <a href="https://cryptoslate.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                CryptoSlate
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">CryptoSlate is a comprehensive news and data platform that provides insights into the cryptocurrency and blockchain industry, offering real-time data on digital assets, market trends, and industry developments. It serves as a resource for investors, developers, and enthusiasts to stay informed about...</p>
+                    </a>
+                    <a href="https://thedefiant.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Defiant
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">The Defiant is a leading crypto media platform and ecosystem focused on decentralized finance (DeFi), blockchain technology, and Web3 innovations, founded by Camila Russo, a former Bloomberg journalist. It provides in-depth reporting, analysis, and educational content about emerging decentralized te...</p>
+                    </a>
+                    <a href="https://beincrypto.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Be in Crypto
+                            </h3>
+                        <p class="resource-short">Crypto Media</p>
+                        <p class="resource-description">Be in Crypto is a digital media platform focused on providing comprehensive coverage of cryptocurrency, blockchain technology, and digital asset markets through news, analysis, and investigative reporting. The platform offers in-depth articles, market insights, technical analysis, and expert comment...</p>
+                    </a>
+                    <a href="https://youtube.com/@coffeezillaextras?si=EE0_ezWftVCaBkKv" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                coffeezilla
+                            </h3>
+                        <p class="resource-short">podcast about scams</p>
+                        <p class="resource-description">podcast about scams</p>
+                    </a>
+                </div>
+            </section>
+            <section id="newsletter" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Newsletter</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.weekinethereumnews.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                weekinethereumnews
+                            </h3>
+                        <p class="resource-short">Weekly updates on Ethereum’s progress</p>
+                        <p class="resource-description">Weekinethereumnews is a comprehensive resource providing weekly updates on Ethereum's development and ecosystem. It covers technical advancements, protocol upgrades, and community initiatives. The platform aggregates news, research, and insights relevant to Ethereum developers and enthusiasts. It se...</p>
+                    </a>
+                    <a href="https://info.etherscan.com/newsletters/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Etherscan's newsletters
+                            </h3>
+                        <p class="resource-short">Informative newletter about industry trends</p>
+                        <p class="resource-description">Informative newletter about industry trends</p>
+                    </a>
+                    <a href="https://thedailygwei.substack.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Thedailygwei's newsletters
+                            </h3>
+                        <p class="resource-short">MEV news</p>
+                        <p class="resource-description">A decentralized newsletter platform leveraging blockchain technology to enable transparent, censorship-resistant content distribution for crypto and web3 enthusiasts. The system utilizes smart contracts to manage subscription mechanisms, allowing direct monetization and engagement between writers an...</p>
+                    </a>
+                    <a href="https://www.ethinvestorsclub.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum's quarterly roundup
+                            </h3>
+                        <p class="resource-short">A deep dive into Ethereum</p>
+                        <p class="resource-description">A deep dive into Ethereum</p>
+                    </a>
+                </div>
+            </section>
+            <section id="onchain-finops" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Onchain FinOps</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.blockpit.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Blockpit
+                            </h3>
+                        <p class="resource-short">Transaction Cost Basis Calculator</p>
+                        <p class="resource-description">Blockpit is a blockchain-based platform designed to streamline cryptocurrency tax reporting and portfolio tracking through automated compliance solutions. The system integrates with multiple exchanges and wallets, utilizing advanced algorithmic parsing to aggregate transaction data and generate comp...</p>
+                    </a>
+                    <a href="https://www.cointracking.info" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Cointracking
+                            </h3>
+                        <p class="resource-short">Crypto Portfolio & Tax Reporting</p>
+                        <p class="resource-description">Cointracking is a comprehensive cryptocurrency portfolio tracking and tax reporting platform that enables users to monitor their digital asset investments across multiple exchanges and wallets. The web-based and desktop application provides advanced analytics, performance metrics, and detailed profi...</p>
+                    </a>
+                    <a href="https://www.debank.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DeBank
+                            </h3>
+                        <p class="resource-short">Multi-Chain Portfolio Tracker for Ethereum Users</p>
+                        <p class="resource-description">DeBank is a comprehensive web3 portfolio tracking platform that enables users to aggregate and monitor their cryptocurrency assets across multiple blockchain networks. The platform provides real-time insights into token balances, transaction histories, and portfolio performance by connecting seamles...</p>
+                    </a>
+                    <a href="https://www.koinly.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                koinly
+                            </h3>
+                        <p class="resource-short">Crypto Tax Reporting Software</p>
+                        <p class="resource-description">Koinly is a comprehensive crypto tax reporting software designed to simplify the process of calculating and reporting cryptocurrency taxes. It integrates with over 600 exchanges, wallets, and services, allowing users to automatically import their transaction data. The platform supports various tax m...</p>
+                    </a>
+                    <a href="https://www.tokentax.co" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                token tax
+                            </h3>
+                        <p class="resource-short">Ethereum DeFi & Staking Tax Calculator</p>
+                        <p class="resource-description">Token Tax is a specialized tax software platform designed to streamline cryptocurrency tax reporting, with a primary focus on complex DeFi and staking transactions across multiple blockchain networks. The platform leverages advanced algorithmic parsing to automatically import transactions from major...</p>
+                    </a>
+                    <a href="https://www.zenledger.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                ZenLedger
+                            </h3>
+                        <p class="resource-short">Ethereum Tax Compliance Software</p>
+                        <p class="resource-description">ZenLedger is a cryptocurrency tax software that helps users aggregate transactions across multiple exchanges and wallets to simplify tax reporting and compliance. It provides tools for calculating capital gains, income, and other tax liabilities related to cryptocurrency investments.</p>
+                    </a>
+                    <a href="https://www.steakhouse.financial/work" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Steak House financials
+                            </h3>
+                        <p class="resource-short">Outsourced CFO</p>
+                        <p class="resource-description">A decentralized finance (DeFi) protocol built on the Ethereum blockchain, Steak House Financials leverages advanced smart contract architecture to enable automated yield optimization and liquidity provision strategies. The platform implements sophisticated algorithmic mechanisms to dynamically alloc...</p>
+                    </a>
+                    <a href="https://www.steakhouse.financial/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SteakHouse financial
+                            </h3>
+                        <p class="resource-short">Fractional Web3 CFO</p>
+                        <p class="resource-description">Fractional Web3 CFO</p>
+                    </a>
+                </div>
+            </section>
+            <section id="onchain-data-visualization" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Onchain data visualization</h2>
+                    <p class="category-count">24 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://defipulse.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                DeFi Pulse
+                            </h3>
+                        <p class="resource-short">DeFi analytics and rankings for Ethereum-based DeFi projects.</p>
+                        <p class="resource-description">DeFi Pulse is an advanced analytics platform that provides comprehensive tracking and insights into decentralized finance (DeFi) protocols and their associated metrics. The platform aggregates real-time data on total value locked (TVL), token prices, liquidity pools, lending rates, and protocol perf...</p>
+                    </a>
+                    <a href="https://dune.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Dune Analytics
+                            </h3>
+                        <p class="resource-short">Platform for querying and visualizing Ethereum data created by the community.</p>
+                        <p class="resource-description">Dune Analytics is an open-source blockchain data platform that enables users to query, analyze, and visualize on-chain data across multiple blockchain networks through customizable SQL-based dashboards. By leveraging community-driven data modeling and permissionless data transformation, the platform...</p>
+                    </a>
+                    <a href="https://glassnode.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Glassnode
+                            </h3>
+                        <p class="resource-short">Provides on-chain data and intelligence for the Ethereum network.</p>
+                        <p class="resource-description">Glassnode is an advanced on-chain analytics platform that provides sophisticated cryptocurrency market intelligence by aggregating and analyzing blockchain data across multiple digital assets. Their proprietary metrics and data visualization tools enable institutional investors, traders, and researc...</p>
+                    </a>
+                    <a href="https://txstreet.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                TxStreet
+                            </h3>
+                        <p class="resource-short">Visualizes Ethereum transactions and mempool in real-time.</p>
+                        <p class="resource-description">TxStreet is a visualization platform that provides real-time graphical representations of blockchain network activity, specifically depicting cryptocurrency transactions as animated street scenes where transactions are represented as vehicles moving between blocks or network nodes. The platform supp...</p>
+                    </a>
+                    <a href="https://www.blocknative.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Blocknative
+                            </h3>
+                        <p class="resource-short">Blockchain data services offering real-time tracking and notifications for Ethereum transactions.</p>
+                        <p class="resource-description">Blocknative provides real-time blockchain data services, focusing on tracking and notifications for Ethereum transactions. It offers tools for developers to monitor transaction states, mempool activity, and gas fees, enhancing transparency and decision-making. The platform supports various Ethereum-...</p>
+                    </a>
+                    <a href="https://info.arkm.com/research" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Arkham Intelligence
+                            </h3>
+                        <p class="resource-short">Wallet Identification & Tracking</p>
+                        <p class="resource-description">Arkham Intelligence is a blockchain analytics platform that deanonymizes cryptocurrency wallet addresses by utilizing advanced machine learning and on-chain data analysis techniques. The platform aggregates and correlates blockchain transaction data across multiple networks to identify and map walle...</p>
+                    </a>
+                    <a href="https://www.blocknative.com/gas-estimator" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Blocknative gas estimator
+                            </h3>
+                        <p class="resource-short">How to Track Ethereum Gas Fees in Real-Time</p>
+                        <p class="resource-description">Blocknative's gas estimator is a sophisticated blockchain infrastructure tool designed to provide real-time, dynamic gas price predictions for Ethereum transactions with high accuracy and granular detail. By leveraging a comprehensive mempool data network and advanced algorithmic analysis, the tool ...</p>
+                    </a>
+                    <a href="https://www.chain.link" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Chainlink
+                            </h3>
+                        <p class="resource-short">Oracles & Smart Contract Automation</p>
+                        <p class="resource-description">Chainlink is a decentralized oracle network that enables smart contracts on blockchain platforms to securely interact with real-world data and external APIs. It provides reliable tamper-proof inputs and outputs for complex smart contracts, ensuring they can execute based on accurate and timely infor...</p>
+                    </a>
+                    <a href="https://covalenthq.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                CovalentHQ
+                            </h3>
+                        <p class="resource-short">Modular Infrastructure for AI & Agents</p>
+                        <p class="resource-description">Blockchain Data API suite</p>
+                    </a>
+                    <a href="https://www.flipsidecrypto.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                flipsidecrypto
+                            </h3>
+                        <p class="resource-short">On-Chain SQL Queries</p>
+                        <p class="resource-description">Flipside Crypto provides on-chain data analytics for blockchain ecosystems, enabling users to perform SQL queries on blockchain data. It offers a platform for developers and analysts to access real-time and historical blockchain data, facilitating deeper insights into network activities. The service...</p>
+                    </a>
+                    <a href="https://www.glassnode.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Glassnode
+                            </h3>
+                        <p class="resource-short">Ethereum On-Chain Metrics & Data</p>
+                        <p class="resource-description">Glassnode is an advanced blockchain analytics platform that provides comprehensive on-chain data and intelligence for cryptocurrency markets, with a primary focus on Bitcoin and Ethereum. The platform leverages sophisticated data processing techniques to transform raw blockchain data into actionable...</p>
+                    </a>
+                    <a href="https://www.intotheblock.com/insights" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Intotheblock
+                            </h3>
+                        <p class="resource-short">On-Chain Ethereum & DeFi Analytics</p>
+                        <p class="resource-description">IntoTheBlock is an advanced blockchain analytics platform that provides deep insights into cryptocurrency market dynamics through on-chain data analysis using machine learning algorithms. The platform specializes in generating complex metrics and predictive indicators for various cryptocurrencies, w...</p>
+                    </a>
+                    <a href="https://makerburn.com/#/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Makerburn
+                            </h3>
+                        <p class="resource-short">Visualization for DAI collaterals</p>
+                        <p class="resource-description">Makerburn is a comprehensive analytics and visualization platform specifically designed for the MakerDAO ecosystem, providing detailed insights into DAI's collateralization, vault metrics, and protocol performance. The tool offers real-time data on vault health, collateral types, liquidation risks, ...</p>
+                    </a>
+                    <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Nansen
+                            </h3>
+                        <p class="resource-short">On-Chain Wallet & Smart Money Tracking</p>
+                        <p class="resource-description">Nansen is a blockchain analytics platform that provides in-depth insights into cryptocurrency wallet activities, token flows, and on-chain behavior across multiple blockchain networks. By leveraging advanced data indexing and machine learning techniques, the platform aggregates and contextualizes co...</p>
+                    </a>
+                    <a href="https://www.santiment.net" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                santiment
+                            </h3>
+                        <p class="resource-short">Ethereum Network Metrics & Social Sentiment</p>
+                        <p class="resource-description">Santiment provides advanced on-chain and social sentiment analytics for cryptocurrency markets, leveraging complex data aggregation from blockchain networks, social media platforms, and trading environments. Their platform offers comprehensive metrics and insights including network activity, token m...</p>
+                    </a>
+                    <a href="https://www.thegraph.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                the graph
+                            </h3>
+                        <p class="resource-short">A decentralized indexing protocol</p>
+                        <p class="resource-description">The Graph is a decentralized indexing protocol designed to query blockchain data efficiently. It allows developers to build and publish open APIs, known as subgraphs, that applications can query using GraphQL. By indexing Ethereum and IPFS data, The Graph enables seamless access to blockchain inform...</p>
+                    </a>
+                    <a href="https://txcity.io/v/eth-btc" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                TxStreet
+                            </h3>
+                        <p class="resource-short">Ethereum Mempool Visualization</p>
+                        <p class="resource-description">TxStreet is a visualization platform that provides real-time graphical representations of blockchain network activity, specifically depicting cryptocurrency transactions as animated street scenes where transactions are represented as vehicles moving between blocks or network nodes. The platform supp...</p>
+                    </a>
+                    <a href="https://www.growthepie.xyz/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Growthepie
+                            </h3>
+                        <p class="resource-short">Data vizualization about L2s</p>
+                        <p class="resource-description">Data vizualization about L2s</p>
+                    </a>
+                    <a href="https://lab.ethpandaops.io/beacon/slot/live?network=mainnet" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                EthPandaOps
+                            </h3>
+                        <p class="resource-short">Node geolocalization</p>
+                        <p class="resource-description">EthPandaOps is an infrastructure and tooling initiative focused on Ethereum network resilience and operational efficiency, primarily developing monitoring, validation, and performance optimization solutions for blockchain infrastructure. The project emphasizes collaborative open-source development, ...</p>
+                    </a>
+                    <a href="https://tokenomist.ai/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tokenomist
+                            </h3>
+                        <p class="resource-short">Insight about upcoming unlocks</p>
+                        <p class="resource-description">Tokenomist is a decentralized blockchain-based platform that leverages advanced smart contract technology to create a dynamic ecosystem for tokenized asset management and fractional ownership. The protocol utilizes a proprietary consensus mechanism that enhances transaction efficiency and reduces co...</p>
+                    </a>
+                    <a href="https://coinmarketcap.com/token-unlocks/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Token Unlocks on Coinmarketcap
+                            </h3>
+                        <p class="resource-short">Insight about upcoming unlocks</p>
+                        <p class="resource-description">Token Unlocks on CoinMarketCap is a data tracking feature that provides comprehensive insights into scheduled token release events across various cryptocurrency projects. The feature offers detailed information about upcoming token unlock schedules, including precise dates, amounts, and potential ma...</p>
+                    </a>
+                    <a href="https://app.artemis.xyz/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Artemis
+                            </h3>
+                        <p class="resource-short">L1 metrics dashboard</p>
+                        <p class="resource-description">L1 metrics dashboard</p>
+                    </a>
+                    <a href="https://blockchair.com/pdf" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Receipt generator
+                            </h3>
+                        <p class="resource-short">Get receipts for your onchain transactions</p>
+                        <p class="resource-description">A decentralized blockchain-based system designed to generate immutable and verifiable digital receipts using smart contract technology, enabling transparent and tamper-proof transaction documentation across multiple financial and commercial ecosystems. The platform leverages cryptographic signatures...</p>
+                    </a>
+                    <a href="https://ethereumdashboards.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum dashboards
+                            </h3>
+                        <p class="resource-short">All things Ethereum</p>
+                        <p class="resource-description">All things Ethereum</p>
+                    </a>
+                </div>
+            </section>
+            <section id="podcast" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Podcast</h2>
+                    <p class="category-count">16 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.youtube.com/playlist?list=PLNzMl-Xdbc4YfQcYdy96wgTAWoMr-3b-j" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The edge podcast
+                            </h3>
+                        <p class="resource-short">Defi Dad's podcast</p>
+                        <p class="resource-description">Defi Dad is an OG, and his podcast is educational.</p>
+                    </a>
+                    <a href="https://youtube.com/playlist?list=PLz3vbkrzRoXR_XIWVqnZcX11REeC6acN2&si=wkq7FFyDSH0wJI27" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Infinite Jungle
+                            </h3>
+                        <p class="resource-short">Great podcast about Ethereum development</p>
+                        <p class="resource-description">Great podcast about Ethereum development</p>
+                    </a>
+                    <a href="https://www.youtube.com/@UnchainedCrypto" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Unchained Crypto
+                            </h3>
+                        <p class="resource-short">Laura Shin's podcast</p>
+                        <p class="resource-description">Unchained Crypto is a decentralized blockchain infrastructure platform designed to enhance cross-chain interoperability and asset transfer through advanced cryptographic protocols. The project utilizes a proprietary consensus mechanism that combines proof-of-stake with a novel sharding architecture ...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@epicenterbtc" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Epicenter Podcast
+                            </h3>
+                        <p class="resource-short">OG podcast</p>
+                        <p class="resource-description">A decentralized platform leveraging blockchain technology to facilitate secure, transparent podcast content distribution and monetization through tokenized listener interactions. The system employs smart contracts to enable direct creator compensation, content ownership verification, and listener re...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@UpOnly" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                UpOnly
+                            </h3>
+                        <p class="resource-short">podcast by Cobie</p>
+                        <p class="resource-description">UpOnly emerged as a decentralized finance (DeFi) platform focused on creating novel tokenomics and trading mechanisms that aim to incentivize long-term holding and price appreciation through innovative smart contract design. The protocol implements unique token distribution and reward strategies tha...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@ProofOfPodcast" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Proof Of Podcast
+                            </h3>
+                        <p class="resource-short">Security researchers, devs and founders discuss tech</p>
+                        <p class="resource-description">Security researchers, devs and founders discuss tech</p>
+                    </a>
+                    <a href="https://www.youtube.com/@nspodcast" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The Network State Podcast
+                            </h3>
+                        <p class="resource-short">Balaji interviews tech founders</p>
+                        <p class="resource-description">A conceptual exploration of networked governance and emergent political structures enabled by blockchain and decentralized technologies, hosted by Balaji Srinivasan and focused on reimagining social coordination through digital-first, opt-in community frameworks. The podcast examines how cryptograph...</p>
+                    </a>
+                    <a href="https://www.intothebytecode.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Into the Bytecode
+                            </h3>
+                        <p class="resource-short">Podcast about all things crypto by Sina Habibian</p>
+                        <p class="resource-description">Into the Bytecode is a podcast and knowledge platform exploring advanced technical concepts in blockchain, cryptocurrency, and decentralized technologies, hosted by Sina Habibian, a seasoned blockchain researcher and engineer. The podcast delves deep into complex technical discussions with leading e...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@theaccountantquits" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                The accountant Quits
+                            </h3>
+                        <p class="resource-short">Podcast about Web3 CFOs journey</p>
+                        <p class="resource-description">Podcast about Web3 CFOs journey</p>
+                    </a>
+                    <a href="https://www.devsdosomething.fm/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Devs do something
+                            </h3>
+                        <p class="resource-short">Devs do Something is technical podcast</p>
+                        <p class="resource-description">A decentralized blockchain protocol leveraging layer-2 scaling solutions to enhance transaction efficiency and reduce gas costs for complex smart contract interactions. The project implements a novel consensus mechanism that integrates advanced cryptographic techniques to improve network security an...</p>
+                    </a>
+                    <a href="https://www.youtube.com/playlist?list=PLvER9nHSRN3wZX2tI3JrCLOAzMBgUJtBo" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Forward Guidance
+                            </h3>
+                        <p class="resource-short">A blockworks podcast</p>
+                        <p class="resource-description">A blockworks podcast</p>
+                    </a>
+                    <a href="https://www.youtube.com/@empirepod" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Empire
+                            </h3>
+                        <p class="resource-short">A blockworks podcast</p>
+                        <p class="resource-description">Empire appears to be a podcast focused on crypto and blockchain topics, hosted on the Blockworks platform, which suggests it provides in-depth discussions and analysis of cryptocurrency trends, technologies, and industry developments. While specific details about the podcast's precise content are li...</p>
+                    </a>
+                    <a href="https://zeroknowledge.fm/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Zero Knowledge FM
+                            </h3>
+                        <p class="resource-short">A podcast about decentralization and technology, open source communities & ZK proofs.</p>
+                        <p class="resource-description">Zero Knowledge FM is a highly regarded podcast focused on exploring the technical nuances and emerging developments in zero-knowledge cryptography, blockchain technology, and privacy-preserving computational techniques. Hosted by a team of technical experts, the podcast features in-depth interviews ...</p>
+                    </a>
+                    <a href="https://www.rehashweb3.xyz/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Rehash Web3
+                            </h3>
+                        <p class="resource-short">A community podcast about all things crypto</p>
+                        <p class="resource-description">A community podcast about all things crypto</p>
+                    </a>
+                    <a href="https://www.buzzsprout.com/2460445/episodes" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Human Layer
+                            </h3>
+                        <p class="resource-short">A podcast about crypto</p>
+                        <p class="resource-description">Human Layer appears to be a decentralized technology project focused on enhancing user experience and privacy within blockchain and web3 ecosystems. The project aims to develop infrastructure and protocols that abstract complex blockchain interactions, making decentralized technologies more accessib...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@Decypher_Podcast" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Decypher Podcast
+                            </h3>
+                        <p class="resource-short">A podcast about crypto</p>
+                        <p class="resource-description">The Decypher Podcast is a long-running digital media content platform focused on providing in-depth analysis and commentary on cryptocurrency, blockchain technology, and Web3 ecosystems. Hosted by experienced crypto researchers and industry commentators, the podcast offers technical insights, market...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="prediction-market" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Prediction market</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://polymarket.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Polymarket
+                            </h3>
+                        <p class="resource-short">Information markets platform where users can bet on real-world events.</p>
+                        <p class="resource-description">Polymarket is a decentralized information markets platform that allows users to trade on the outcomes of real-world events using a prediction market model. It leverages blockchain technology to ensure transparency, security, and immutability of trades, enabling users to speculate on a wide range of ...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="privacy" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Privacy</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://aztec.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aztec Protocol
+                            </h3>
+                        <p class="resource-short">Privacy layer for Ethereum providing scalable, private transactions.</p>
+                        <p class="resource-description">Aztec Protocol is a privacy-focused layer for Ethereum that enables scalable, confidential transactions using zero-knowledge proofs. It leverages zk-SNARKs to ensure transaction data remains private while maintaining the integrity and security of the Ethereum network. The protocol supports a range o...</p>
+                    </a>
+                    <a href="https://tornado.cash/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Tornado Cash
+                            </h3>
+                        <p class="resource-short">Non-custodial anonymous transactions on Ethereum.</p>
+                        <p class="resource-description">Tornado Cash is a decentralized, non-custodial Ethereum mixer that enables private cryptocurrency transactions by breaking the on-chain link between source and destination addresses through zero-knowledge proofs. By utilizing a cryptographic mechanism where users deposit funds into a smart contract ...</p>
+                    </a>
+                    <a href="https://www.aztec.network" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Aztec
+                            </h3>
+                        <p class="resource-short">Private Ethereum transactions</p>
+                        <p class="resource-description">Aztec is a zero-knowledge (ZK) privacy protocol built on Ethereum that enables private, scalable transactions and smart contract interactions while maintaining cryptographic security. Its core technology allows users to conduct fully encrypted transactions with complete transaction details hidden fr...</p>
+                    </a>
+                    <a href="https://www.spruceid.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SpruceID
+                            </h3>
+                        <p class="resource-short">Ethereum Verifiable Credentials</p>
+                        <p class="resource-description">SpruceID is a decentralized identity infrastructure built on Ethereum that enables individuals to cryptographically prove claims about themselves using verifiable credentials. Their protocol allows users to create, manage, and selectively disclose identity attestations in a privacy-preserving manner...</p>
+                    </a>
+                    <a href="https://www.zkhack.dev" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                ZK Hack
+                            </h3>
+                        <p class="resource-short">Zero-Knowledge Proofs Research</p>
+                        <p class="resource-description">All things ZKProofs</p>
+                    </a>
+                    <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Telegram
+                            </h3>
+                        <p class="resource-short">A secure chat app</p>
+                        <p class="resource-description">Telegram Open Network (TON) is a high-performance blockchain platform designed to enable fast, secure, and scalable decentralized applications and cryptocurrency transactions. Developed initially by Telegram's founders, the network employs a unique multi-blockchain architecture with sharding capabil...</p>
+                    </a>
+                    <a href="https://signal.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Signal
+                            </h3>
+                        <p class="resource-short">A secure chat app</p>
+                        <p class="resource-description">Signal is an open-source, end-to-end encrypted messaging application designed to prioritize user privacy and security. It employs the Signal Protocol, a cryptographic protocol that ensures messages, voice calls, and video calls are secure from interception. The app is available on multiple platforms...</p>
+                    </a>
+                    <a href="https://pse.dev/en/projects" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Privacy Stewards of Ethereum
+                            </h3>
+                        <p class="resource-short">All things privacy</p>
+                        <p class="resource-description">All things privacy</p>
+                    </a>
+                </div>
+            </section>
+            <section id="rwa" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">RWA</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.centrifuge.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Centrifuge
+                            </h3>
+                        <p class="resource-short">RWAs on Ethereum</p>
+                        <p class="resource-description">Centrifuge is a decentralized finance protocol focused on bringing real-world assets (RWAs) onto the blockchain. It operates on Ethereum, utilizing smart contracts to tokenize assets like invoices, real estate, and royalties. The platform enables businesses to access liquidity by converting these as...</p>
+                    </a>
+                    <a href="https://www.ondo.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ondo
+                            </h3>
+                        <p class="resource-short">Tokenized U.S. Treasury Bonds on Ethereum</p>
+                        <p class="resource-description">Ondo Finance is a decentralized finance (DeFi) platform that focuses on creating tokenized, real-world asset (RWA) investment products with enhanced accessibility and regulatory compliance. The protocol enables users to invest in traditional financial assets like US Treasury bonds and corporate cred...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="safe-tooling" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">SAFE tooling</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://safeutils.openzeppelin.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                SAFEUTILS
+                            </h3>
+                        <p class="resource-short">Tool to check SAFE'UI data is correct.</p>
+                        <p class="resource-description">Safe Hash Preview was created as a quick response to the WazirX, Radiant and Bybit exploits. The core script was developed by pcaversaccio, and we added a user-friendly interface to make it more accessible.</p>
+                    </a>
+                    <a href="https://help.safe.global/en/articles/276343-how-to-perform-basic-transactions-checks-on-safe-wallet" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Basic checks on SAFE
+                            </h3>
+                        <p class="resource-short">cross checking SAFE's transactions</p>
+                        <p class="resource-description">A systematic approach to verifying transaction integrity and security within the Safe (formerly Gnosis Safe) multi-signature wallet ecosystem, focusing on essential validation procedures before executing blockchain transactions. These basic checks involve examining transaction parameters, confirming...</p>
+                    </a>
+                    <a href="https://app.palmeradao.xyz/welcome" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Palmeradao
+                            </h3>
+                        <p class="resource-short">Alternative UI to SAFE</p>
+                        <p class="resource-description">Alternative UI to SAFE</p>
+                    </a>
+                    <a href="https://eternalsafe.eth.limo/welcome/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Eternal Safe
+                            </h3>
+                        <p class="resource-short">Alternative UI to SAFE</p>
+                        <p class="resource-description">Alternative UI to SAFE</p>
+                    </a>
+                </div>
+            </section>
+            <section id="scaling" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Scaling</h2>
+                    <p class="category-count">9 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://loopring.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Loopring
+                            </h3>
+                        <p class="resource-short">Layer 2 scaling solution using zk-rollups to offer fast and low-cost Ethereum transactions.</p>
+                        <p class="resource-description">Loopring is a Layer 2 scaling solution for Ethereum that utilizes zk-rollups to enable fast and low-cost transactions. It aggregates multiple transactions into a single batch, which is then processed off-chain, reducing the load on the Ethereum mainnet. By leveraging zero-knowledge proofs, Loopring ...</p>
+                    </a>
+                    <a href="https://www.zksync.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                zkSync
+                            </h3>
+                        <p class="resource-short">Layer 2 solution on Ethereum using zk-rollups for scalable and low-cost transactions.</p>
+                        <p class="resource-description">zkSync is a Layer 2 scaling solution for Ethereum that utilizes zk-rollups to enable scalable and low-cost transactions. It leverages zero-knowledge proofs to bundle multiple transactions into a single proof, which is then submitted to the Ethereum mainnet, ensuring security and decentralization. zk...</p>
+                    </a>
+                    <a href="https://www.arbitrum.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Arbitrum
+                            </h3>
+                        <p class="resource-short">Arbitrum</p>
+                        <p class="resource-description">Arbitrum is a Layer 2 scaling solution for Ethereum that utilizes optimistic rollup technology to significantly improve transaction throughput and reduce gas fees while maintaining the security guarantees of the Ethereum mainnet. By bundling multiple transactions off-chain and then submitting a comp...</p>
+                    </a>
+                    <a href="https://www.metis.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MetisDAO
+                            </h3>
+                        <p class="resource-short">Decentralized Layer 2 scaling</p>
+                        <p class="resource-description">MetisDAO is an Optimistic Rollup-based Layer 2 scaling solution built on Ethereum that aims to reduce transaction costs and improve scalability for decentralized applications and blockchain ecosystems. The platform utilizes a unique "Decentralized Autonomous Company" (DAC) framework that enables mor...</p>
+                    </a>
+                    <a href="https://www.optimism.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Optimism
+                            </h3>
+                        <p class="resource-short">optimistic rollup</p>
+                        <p class="resource-description">Optimism is a Layer 2 scaling solution for Ethereum that utilizes optimistic rollups to increase transaction throughput and reduce fees. It operates by batching multiple transactions off-chain and submitting them to the Ethereum mainnet as a single transaction, assuming all transactions are valid un...</p>
+                    </a>
+                    <a href="https://www.polygon.technology" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Polygon
+                            </h3>
+                        <p class="resource-short">Ethereum’s largest sidechain</p>
+                        <p class="resource-description">Polygon is a Layer 2 scaling solution for Ethereum that enables faster and more cost-effective transactions through its proof-of-stake blockchain network. By utilizing a modified Plasma framework and a robust set of validator nodes, Polygon provides enhanced interoperability and near-instant transac...</p>
+                    </a>
+                    <a href="https://www.starknet.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                StarkNet
+                            </h3>
+                        <p class="resource-short">ZK-rollup</p>
+                        <p class="resource-description">StarkNet is a decentralized ZK-rollup that operates as a Layer 2 network on Ethereum, leveraging STARK-based cryptographic proofs to ensure scalability and security. It enables developers to deploy smart contracts with significantly lower gas costs while maintaining the security guarantees of the Et...</p>
+                    </a>
+                    <a href="https://zkproof.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                zkproof community
+                            </h3>
+                        <p class="resource-short">Ethereum’s Layer 3 Concept & Future Scaling</p>
+                        <p class="resource-description">A zero-knowledge proof infrastructure designed to enhance privacy and scalability across blockchain networks, zkproof community focuses on developing modular cryptographic protocols that enable verifiable computation without revealing underlying data. The project leverages advanced cryptographic tec...</p>
+                    </a>
+                    <a href="https://www.zksync.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                zkSync
+                            </h3>
+                        <p class="resource-short">A leading zero-knowledge rollup</p>
+                        <p class="resource-description">zkSync is a Layer 2 scaling solution for Ethereum that utilizes zero-knowledge rollups to enable faster and cheaper transactions while maintaining security and decentralization. It leverages zk-SNARKs to bundle multiple transactions into a single proof, which is then verified on the Ethereum mainnet...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="security" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Security</h2>
+                    <p class="category-count">3 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://consensys.github.io/smart-contract-best-practices/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Smart Contract Best Practices
+                            </h3>
+                        <p class="resource-short">A guide to best practices for smart contract development to minimize security risks.</p>
+                        <p class="resource-description">A comprehensive resource for blockchain developers focusing on secure smart contract design and implementation, offering in-depth guidance on mitigating common vulnerabilities and risks in decentralized applications. The guide covers critical aspects of smart contract security, including architectur...</p>
+                    </a>
+                    <a href="https://www.revoke.cash" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Revoke.cash
+                            </h3>
+                        <p class="resource-short">Check & Revoke Ethereum Wallet Approvals</p>
+                        <p class="resource-description">Revoke.cash is a critical web3 security tool that enables Ethereum users to audit and retract token spending allowances (ERC-20 approvals) granted to smart contracts across multiple networks. By providing a comprehensive interface to visualize existing token approvals, the platform allows users to s...</p>
+                    </a>
+                    <a href="https://revoke.cash/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Revoke Cash
+                            </h3>
+                        <p class="resource-short">Usefull tool to stay secure. It removes the approval previously given to your address.</p>
+                        <p class="resource-description">Revoke.cash is a web-based utility designed to help cryptocurrency users manage and revoke token approvals across multiple blockchain networks, primarily focusing on Ethereum and EVM-compatible chains. The platform provides a comprehensive interface that allows users to inspect and selectively cance...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="security-audits" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Security audits</h2>
+                    <p class="category-count">8 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.certora.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Certora
+                            </h3>
+                        <p class="resource-short">Formal verification for Solidity contracts</p>
+                        <p class="resource-description">Certora provides a formal verification platform specifically designed for smart contract security and correctness, focusing on automated analysis and proof techniques for blockchain code. Their technology leverages advanced formal methods to mathematically verify smart contract behavior, detecting p...</p>
+                    </a>
+                    <a href="https://www.chainalysis.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Chainalysis
+                            </h3>
+                        <p class="resource-short">Transaction Monitoring & Compliance</p>
+                        <p class="resource-description">Chainalysis is a blockchain analysis company that provides data and software services to government agencies, exchanges, and financial institutions for monitoring and compliance purposes. Their platform offers transaction monitoring, investigation tools, and risk management solutions to detect and p...</p>
+                    </a>
+                    <a href="https://diligence.consensys.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Consensys diligence
+                            </h3>
+                        <p class="resource-short">Consensys auditing</p>
+                        <p class="resource-description">Consensys Diligence is a specialized blockchain security and smart contract auditing division of Consensys, focusing on identifying and mitigating vulnerabilities in decentralized applications and blockchain protocols. Their team of expert security researchers and blockchain engineers conduct compre...</p>
+                    </a>
+                    <a href="https://www.defisafety.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Defi Safety
+                            </h3>
+                        <p class="resource-short">Security audits for DeFi projects</p>
+                        <p class="resource-description">Defi Safety is an independent research and rating organization focused on evaluating the security and operational standards of decentralized finance (DeFi) protocols. The organization provides comprehensive security assessments and standardized scoring mechanisms that help investors and users unders...</p>
+                    </a>
+                    <a href="https://www.openzeppelin.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                OpenZeppelin
+                            </h3>
+                        <p class="resource-short">Pre-audited Solidity smart contract libraries</p>
+                        <p class="resource-description">OpenZeppelin is a leading framework for building secure smart contracts in the Ethereum ecosystem. It provides a comprehensive library of reusable, pre-audited Solidity components that developers can leverage to ensure the security and efficiency of their decentralized applications. The platform emp...</p>
+                    </a>
+                    <a href="https://www.github.com/crytic/echidna" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                echidna
+                            </h3>
+                        <p class="resource-short">A fuzzing tool for Solidity contracts</p>
+                        <p class="resource-description">Echidna is a security-oriented fuzzing tool designed specifically for testing Ethereum smart contracts written in Solidity. It operates by generating random inputs to test the contract's functions, aiming to uncover vulnerabilities and unexpected behaviors. The tool integrates seamlessly with the Et...</p>
+                    </a>
+                    <a href="https://www.github.com/crytic/slither" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                slither
+                            </h3>
+                        <p class="resource-short">A security analysis tool for Solidity</p>
+                        <p class="resource-description">Slither is a static analysis tool designed to enhance the security of smart contracts written in Solidity. It provides developers with the ability to identify vulnerabilities, optimize code, and ensure adherence to best practices by analyzing the contract's source code. Slither's architecture is bui...</p>
+                    </a>
+                    <a href="https://www.trailofbits.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                TrailofBits
+                            </h3>
+                        <p class="resource-short">Security Research</p>
+                        <p class="resource-description">Trail of Bits is a highly regarded cybersecurity research and engineering firm specializing in advanced security assessments, vulnerability research, and software development for blockchain, cryptography, and critical infrastructure technologies. Their team of expert researchers and engineers develo...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="social-network" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Social network</h2>
+                    <p class="category-count">4 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.lens.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Lens Protocol
+                            </h3>
+                        <p class="resource-short">Decentralized Social Media on Ethereum</p>
+                        <p class="resource-description">Lens Protocol is a blockchain-based, decentralized social graph built on Polygon that enables users to truly own their social media content and connections through NFT-based profiles. Unlike traditional social platforms, Lens allows creators to port their entire social network, followers, and conten...</p>
+                    </a>
+                    <a href="https://twitterscore.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                twitterscore
+                            </h3>
+                        <p class="resource-short">Twitter engagement score</p>
+                        <p class="resource-description">Followers can be purchased, Reputation cannot.</p>
+                    </a>
+                    <a href="https://www.youtube.com/playlist?list=PLIWXvJ9HLlYT6zTerbPJU0QeFF95M01Xn" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Mad Realities
+                            </h3>
+                        <p class="resource-short">Onchain dating show</p>
+                        <p class="resource-description">An Onchain dating show during the NFT craze.</p>
+                    </a>
+                    <a href="https://element.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Element
+                            </h3>
+                        <p class="resource-short">A secure chat app</p>
+                        <p class="resource-description">Element is an open-source, decentralized communication platform built on the Matrix protocol, offering end-to-end encrypted messaging, voice, and video communication across multiple devices and networks. It provides users with self-hosting capabilities, federated communication, and robust privacy fe...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="stablecoin" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Stablecoin</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.frax.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Frax Finance
+                            </h3>
+                        <p class="resource-short">algorithmic stablecoin</p>
+                        <p class="resource-description">Frax Finance is a fractional-algorithmic stablecoin protocol that introduces a novel approach to cryptocurrency stability by dynamically adjusting its collateralization ratio through an innovative partially-collateralized design. The protocol maintains its price stability through a dual-token mechan...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="staking---restaking" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Staking / restaking</h2>
+                    <p class="category-count">5 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.eigenlayer.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Eigenlayer
+                            </h3>
+                        <p class="resource-short">Restaking</p>
+                        <p class="resource-description">Eigenlayer is a middleware protocol built on Ethereum that enables liquid staking tokens to be restaked across multiple protocols, thereby allowing validators to earn additional rewards and provide security to other networks. By introducing a novel "restaking" mechanism, it allows staked ETH to be u...</p>
+                    </a>
+                    <a href="https://figment.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Figment
+                            </h3>
+                        <p class="resource-short">Staking platform for institutions</p>
+                        <p class="resource-description">Figment is a leading blockchain infrastructure and services provider, specializing in staking solutions for institutional clients. It offers a comprehensive suite of tools and APIs that enable secure and efficient participation in proof-of-stake networks. Figment's platform supports a wide range of ...</p>
+                    </a>
+                    <a href="https://www.lido.fi" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Lido
+                            </h3>
+                        <p class="resource-short">Liquid staking for ETH</p>
+                        <p class="resource-description">Lido is a decentralized protocol that provides liquid staking solutions for Ethereum 2.0, allowing users to stake their ETH without locking it up. It issues stETH tokens in return, which represent staked ETH and can be used across the DeFi ecosystem for additional yield opportunities. Lido's archite...</p>
+                    </a>
+                    <a href="https://www.rocketpool.net" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Rocket
+                            </h3>
+                        <p class="resource-short">A decentralized staking service</p>
+                        <p class="resource-description">Rocket Pool is a decentralized Ethereum staking protocol that enables users to participate in Ethereum's proof-of-stake consensus mechanism with lower capital requirements and enhanced flexibility compared to traditional staking methods. The protocol allows node operators to run validator infrastruc...</p>
+                    </a>
+                    <a href="https://www.btcs.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                BTCS Inc
+                            </h3>
+                        <p class="resource-short">A blockchain technology-focused company, BTCS has been a long-time holder of Ethereum. They are actively involved in staking and running validator nodes, viewing Ethereum not just as a store of value but as a productive digital asset.</p>
+                        <p class="resource-description">BTCS Inc is a blockchain technology company that focuses on securing and supporting blockchain networks through staking and operating validator nodes, particularly on the Ethereum network. They leverage their expertise to enhance the utility of digital assets, treating them as productive investments...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="tax-guide" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Tax Guide</h2>
+                    <p class="category-count">1 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.cointracker.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                cointracker
+                            </h3>
+                        <p class="resource-short">Tax Guide</p>
+                        <p class="resource-description">CoinTracker is a cryptocurrency portfolio and tax management platform that helps users track their crypto investments and calculate their tax obligations. It integrates with various exchanges and wallets to provide real-time portfolio tracking and generates tax reports compliant with local regulatio...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="tokenization" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Tokenization</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.klimadao.finance" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Klimadao
+                            </h3>
+                        <p class="resource-short">Tokenized Carbon Credits</p>
+                        <p class="resource-description">Klimadao is a decentralized autonomous organization built on the Ethereum blockchain, focused on tokenizing carbon credits. It aims to create a transparent and liquid market for carbon credits by leveraging blockchain technology. The project utilizes a native token, KLIMA, to incentivize the purchas...</p>
+                    </a>
+                    <a href="https://dashboard.etherealize.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Etherealize
+                            </h3>
+                        <p class="resource-short">bringing the world gdp onchain</p>
+                        <p class="resource-description">bringing the world gdp onchain</p>
+                    </a>
+                </div>
+            </section>
+            <section id="tools-that-care-about-decentralization" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Tools that care about decentralization</h2>
+                    <p class="category-count">2 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.chainlinklabs.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Chainlink
+                            </h3>
+                        <p class="resource-short">Decentralized oracle network providing external data to Ethereum smart contracts.</p>
+                        <p class="resource-description">Chainlink is a decentralized oracle network that enables smart contracts on blockchains to securely interact with real-world data and external APIs. It provides a reliable bridge between on-chain and off-chain environments, ensuring that smart contracts can access accurate and tamper-proof data feed...</p>
+                    </a>
+                    <a href="https://www.ens.domains" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Name Service
+                            </h3>
+                        <p class="resource-short">Decentralized domain names</p>
+                        <p class="resource-description">Ethereum Name Service (ENS) is a decentralized naming system built on the Ethereum blockchain that allows users to map human-readable names to machine-readable identifiers such as Ethereum addresses, content hashes, and metadata. ENS operates on a system of smart contracts, enabling users to registe...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="vc" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">VC</h2>
+                    <p class="category-count">3 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.a16zcrypto.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                a16z
+                            </h3>
+                        <p class="resource-short">VC & Research Arm of Andreessen Horowitz</p>
+                        <p class="resource-description">A16z Crypto is the dedicated blockchain and cryptocurrency investment and research division of Andreessen Horowitz, a prominent venture capital firm that has been deeply involved in crypto ecosystem development since 2013. The team combines technical expertise with investment capital, focusing on su...</p>
+                    </a>
+                    <a href="https://www.paradigm.xyz" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Paradigm
+                            </h3>
+                        <p class="resource-short">Ethereum Research & Investment Firm</p>
+                        <p class="resource-description">Paradigm is a research-driven investment firm focused on supporting the development and growth of the cryptocurrency and Web3 ecosystem. It combines deep technical expertise with strategic capital deployment to back innovative projects and protocols in the blockchain space. The firm is known for its...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@variantfund" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Variant Fund
+                            </h3>
+                        <p class="resource-short">Crypto native VC</p>
+                        <p class="resource-description">Variant is a crypto-native venture capital firm focused on investing in early-stage decentralized networks and blockchain infrastructure, with a particular emphasis on protocols and applications that demonstrate significant potential for network effects and transformative technological innovation. T...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="video" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Video</h2>
+                    <p class="category-count">5 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://www.youtube.com/watch?v=nuZOZd0ZaKM" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Guide to Etherscan
+                            </h3>
+                        <p class="resource-short">Detailed video on how to use Etherscan</p>
+                        <p class="resource-description">Etherscan is a blockchain explorer and analytics platform specifically designed for the Ethereum network, providing real-time transaction tracking, smart contract verification, and comprehensive blockchain data visualization. It allows developers, researchers, and crypto enthusiasts to examine detai...</p>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=ZE2HxTmxfrI" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Smart Contracts Explained
+                            </h3>
+                        <p class="resource-short">Quick video explaining Ethereum smart contracts in an easy-to-understand format.</p>
+                        <p class="resource-description">A decentralized blockchain platform designed to facilitate automated, trustless transactions through programmable smart contracts executed on a distributed network. Utilizing advanced cryptographic techniques and consensus mechanisms, the system enables secure, transparent, and immutable execution o...</p>
+                    </a>
+                    <a href="https://www.youtube.com/c/EthereumFoundation" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum YouTube Channel
+                            </h3>
+                        <p class="resource-short">Official Ethereum updates & talks</p>
+                        <p class="resource-description">Ethereum YouTube Channel is a decentralized media platform leveraging blockchain technology to enable content creators to monetize and manage their video content through smart contracts and tokenized interactions. The project utilizes Ethereum's robust infrastructure to create transparent, secure, a...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@a16zcrypto" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                A16Z crypto Youtube Channel
+                            </h3>
+                        <p class="resource-short">A16Z Crypto</p>
+                        <p class="resource-description">A16Z Crypto's YouTube channel is a comprehensive digital platform created by Andreessen Horowitz's crypto investment division, featuring in-depth technical discussions, research insights, and educational content about blockchain technology, web3, and cryptocurrency ecosystems. The channel serves as ...</p>
+                    </a>
+                    <a href="https://www.youtube.com/@jun" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Junion
+                            </h3>
+                        <p class="resource-short">Youtube channel about Exploits</p>
+                        <p class="resource-description">Youtube channel about Exploits</p>
+                    </a>
+                </div>
+            </section>
+            <section id="wallet" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Wallet</h2>
+                    <p class="category-count">6 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://ethereum.org/en/wallets/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethereum Wallets
+                            </h3>
+                        <p class="resource-short">Official guide outlining best practices and wallets for safely storing ETH.</p>
+                        <p class="resource-description">Ethereum Wallets is a comprehensive blockchain-based interface designed to provide secure, non-custodial storage and management of ERC-20 and ERC-721 tokens across multiple networks, including Ethereum mainnet, Polygon, and Binance Smart Chain. The platform leverages advanced cryptographic technique...</p>
+                    </a>
+                    <a href="https://www.metamask.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                MetaMask
+                            </h3>
+                        <p class="resource-short">Browser extension and mobile app that allows users to manage Ethereum assets securely.</p>
+                        <p class="resource-description">MetaMask is a web3 browser extension and mobile application that serves as a non-custodial cryptocurrency wallet and Web3 gateway, enabling users to interact with Ethereum-based blockchain networks and decentralized applications (dApps). It provides a secure interface for managing Ethereum (ETH) and...</p>
+                    </a>
+                    <a href="https://www.rabby.io" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Rabby wallet
+                            </h3>
+                        <p class="resource-short">Ethereum Wallet for DeFi Users</p>
+                        <p class="resource-description">Rabby Wallet is a non-custodial browser extension wallet designed specifically for DeFi users, offering enhanced security and advanced features for interacting with Web3 applications. It provides comprehensive transaction simulation capabilities that allow users to preview and understand the potenti...</p>
+                    </a>
+                    <a href="https://www.safe.global" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Safe
+                            </h3>
+                        <p class="resource-short">Secure multi-signature wallet</p>
+                        <p class="resource-description">The go-to security tool in the EVM world.</p>
+                    </a>
+                    <a href="https://walletconnect.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                WalletConnect
+                            </h3>
+                        <p class="resource-short">Securely connect wallets to dApps</p>
+                        <p class="resource-description">WalletConnect is an open-source protocol that enables secure communication between cryptocurrency wallets and decentralized applications (dApps) across multiple platforms and devices. It provides a standard, end-to-end encrypted connection that allows users to interact with blockchain applications w...</p>
+                    </a>
+                    <a href="https://revoke.cash/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Revoke Cash
+                            </h3>
+                        <p class="resource-short">Revoke approvals given to your wallet</p>
+                        <p class="resource-description">Revoke.cash is a web-based utility designed to help cryptocurrency users manage and revoke token approvals across multiple blockchain networks, primarily focusing on Ethereum and EVM-compatible chains. The platform provides a comprehensive interface that allows users to inspect and selectively cance...</p>
+                    </a>
+                </div>
+            </section>
+            <section id="blockchain-explorer" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">blockchain explorer</h2>
+                    <p class="category-count">9 resources</p>
+                </div>
+                <div class="resources-grid">
+                    <a href="https://beaconcha.in/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Beaconcha.in
+                            </h3>
+                        <p class="resource-short">Ethereum 2.0 Beacon Chain explorer and analytics platform.</p>
+                        <p class="resource-description">Beaconcha.in is a comprehensive Ethereum 2.0 Beacon Chain explorer and analytics platform that provides real-time data and insights into the Ethereum proof-of-stake network. It offers detailed information on validators, epochs, slots, and network performance metrics, enabling users to monitor the he...</p>
+                    </a>
+                    <a href="https://ethernodes.org/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Ethernodes
+                            </h3>
+                        <p class="resource-short">Provides data on Ethereum node distribution and statistics.</p>
+                        <p class="resource-description">Ethernodes is a platform that provides comprehensive data on the distribution and statistics of Ethereum nodes across the globe. It offers insights into node client diversity, geographic distribution, and network health, which are crucial for understanding the decentralization and resilience of the ...</p>
+                    </a>
+                    <a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Etherscan
+                            </h3>
+                        <p class="resource-short">A block explorer and analytics platform for Ethereum.</p>
+                        <p class="resource-description">Etherscan is a blockchain explorer and analytics platform specifically designed for the Ethereum network, providing comprehensive transaction, address, and smart contract tracking capabilities. It offers real-time visibility into Ethereum blockchain data, enabling developers, researchers, and crypto...</p>
+                    </a>
+                    <a href="https://info.etherscan.com/advanced-filter/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Etherscan's advanced filter
+                            </h3>
+                        <p class="resource-short">Great tool to map all the transactions going from/to an address.</p>
+                        <p class="resource-description">Etherscan's advanced filter is a sophisticated querying feature within the Etherscan blockchain explorer that allows users to precisely filter and analyze Ethereum blockchain transactions based on multiple complex parameters. It enables technical users to drill down into specific transaction types, ...</p>
+                    </a>
+                    <a href="https://tokenview.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                TokenView
+                            </h3>
+                        <p class="resource-short">Multi-chain blockchain explorer with Ethereum token analytics.</p>
+                        <p class="resource-description">TokenView is a comprehensive blockchain explorer platform that provides in-depth analytics and data visualization across multiple blockchain networks, with a particular focus on Ethereum and its token ecosystem. The platform offers real-time transaction tracking, detailed token metrics, and advanced...</p>
+                    </a>
+                    <a href="https://www.ethgasstation.info/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                ETH Gas Station
+                            </h3>
+                        <p class="resource-short">Real-time Ethereum gas price recommendations and fee estimations.</p>
+                        <p class="resource-description">ETH Gas Station is an open-source platform that provides real-time gas price predictions and transaction cost estimates for the Ethereum network. By aggregating and analyzing transaction data from multiple sources, the platform helps users optimize their gas spending and make more informed decisions...</p>
+                    </a>
+                    <a href="https://www.beaconcha.in" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Beaconcha.in
+                            </h3>
+                        <p class="resource-short">Chain Explorer</p>
+                        <p class="resource-description">Beaconcha.in is a comprehensive blockchain explorer and analytics platform specifically designed for Ethereum's Beacon Chain and Proof-of-Stake (PoS) ecosystem. It provides real-time and historical data visualization for validators, network performance, staking metrics, and consensus layer activitie...</p>
+                    </a>
+                    <a href="https://www.instagram.com/coingecko/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Coingecko on Instagram
+                            </h3>
+                        <p class="resource-short">Web2 <> Web 3</p>
+                        <p class="resource-description">Coingecko is also on Instagram.</p>
+                    </a>
+                    <a href="https://eth.blockscout.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <h3 class="resource-title">
+                                Block Scout
+                            </h3>
+                        <p class="resource-short">An alternative block explorer</p>
+                        <p class="resource-description">BlockScout is an open-source blockchain explorer that provides comprehensive transaction and block data visualization for Ethereum and Ethereum-compatible networks, offering detailed insights into smart contracts, token transfers, and network activities. It supports multiple blockchain networks, inc...</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Ethereum Resources Directory. Educational resources for the Ethereum ecosystem.</p>
+        </div>
+    </footer>
+    
 
     <script>
-        // CSV data from the uploaded file
-        const csvData = `Project URL,Project name,short description,long description,Category
-https://www.request.finance/,Request Finance,Crypto payment solution,"Request Finance is a decentralized payment infrastructure that enables businesses and freelancers to manage cryptocurrency invoicing, billing, and payroll with multi-chain support and fiat conversion capabilities. The platform allows users to create and send professional crypto invoices, automate recurring payments, and receive funds across multiple blockchain networks, including Ethereum, Polygon, Binance Smart Chain, and others. By integrating advanced features like batch payments, on-chain and off-chain settlements, and real-time treasury management, Request Finance streamlines financial workflows for web3 organizations and crypto-native teams. The protocol leverages smart contract technology to provide transparent, secure, and programmable payment solutions that reduce friction in cross-border transactions and enable more efficient financial operations for blockchain-based enterprises.",APP
-https://www.moonpay.com/,MoonPay,Payment processor,"MoonPay is a cryptocurrency payment infrastructure platform that enables seamless fiat-to-crypto transactions for consumers and businesses through a unified API and widget solution. The platform supports over 380 cryptocurrencies and allows users to purchase digital assets using various payment methods including credit/debit cards, bank transfers, and Apple Pay across multiple blockchains and exchanges. By providing a streamlined on-ramp and off-ramp experience, MoonPay helps developers and enterprises integrate crypto payment functionalities directly into their applications, websites, and wallets. The service is designed to be fully compliant with regulatory standards, offering robust KYC/AML procedures to ensure secure and legitimate transactions while improving accessibility to the digital asset ecosystem for a global user base.",APP
-https://fire.xyz/,Fire,Web3 Browser Extension,"Fire is a web3 browser extension designed to enhance transaction security and user experience by simulating transactions before they are signed and executed on the blockchain. By providing a detailed preview of the potential outcomes, Fire allows users to identify and avoid malicious smart contracts, phishing attempts, and other common security threats in the decentralized finance (DeFi) and non-fungible token (NFT) space. The extension simulates how a transaction will affect a user's wallet balance, token allowances, and NFT holdings, presenting the information in a clear and understandable format. This pre-transaction analysis helps users make more informed decisions, mitigate risks, and interact with decentralized applications (dApps) with greater confidence. Fire supports multiple EVM-compatible networks and integrates with popular wallets like MetaMask, offering an additional layer of security for both new and experienced crypto users.",Wallet
-https://blockfence.io/,Blockfence,Web3 Browser Extension,"BlockFence is a web3 security extension designed to protect crypto users from scams, phishing attacks, and malicious smart contracts by providing real-time threat intelligence and transaction analysis. The browser extension integrates with popular wallets like MetaMask and offers proactive security alerts that warn users before they interact with potentially harmful decentralized applications (dApps) or sign risky transactions. By simulating transactions and analyzing smart contract code, BlockFence can identify common attack vectors, such as address poisoning, and flag suspicious activities before a user commits to them on-chain. The platform aims to enhance the security of the web3 ecosystem by empowering users with the tools and information needed to navigate the decentralized web more safely. It provides a user-friendly interface that translates complex blockchain data into clear, actionable insights, helping to prevent financial losses and improve overall wallet security.",Wallet
-https://walletguard.app/,Wallet Guard,Web3 Browser Extension,"WalletGuard is a web3 security extension that provides real-time protection against phishing, scams, and malicious smart contracts by simulating transactions before they are executed. The open-source browser extension integrates with popular wallets like MetaMask to offer users a clear and detailed preview of what a transaction will do, including its impact on their token and NFT balances. By identifying potential threats and security risks, such as suspicious contract interactions or approvals, WalletGuard helps users make more informed decisions and avoid common pitfalls in the decentralized finance (DeFi) and NFT ecosystems. The platform is designed to enhance user security without compromising privacy, offering a non-intrusive way to add an extra layer of protection to web3 activities. With its focus on proactive threat detection and user education, WalletGuard aims to make the decentralized web a safer environment for everyone.",Wallet
-https://secrethealth.io/,SecretHealth,Decentralized health data marketplace,"SecretHealth is a decentralized health data marketplace built on Secret Network that enables individuals to securely and privately share their health information with researchers while retaining full control and ownership of their data. The platform leverages Secret Network's privacy-preserving smart contracts, known as ""Secret Contracts,"" to ensure that sensitive health data remains encrypted and confidential, even during computation. Users can upload their health records, set access permissions, and monetize their data by allowing approved researchers to perform analyses without exposing the raw information. This approach aims to accelerate medical research by providing access to valuable datasets while addressing the privacy concerns traditionally associated with sharing personal health information. By creating a secure and transparent ecosystem for data exchange, SecretHealth empowers individuals to contribute to scientific advancements on their own terms.",APP
-https://picketapi.com/,Picket,NFT token gating,"Picket is a web3 authentication and access control platform that enables developers to integrate non-fungible token (NFT) and token-based gating into their applications, websites, and online communities. The platform provides a suite of APIs and tools that allow for seamless verification of token ownership, enabling developers to create exclusive content, features, and experiences for specific token holders. By leveraging Picket, projects can easily implement token-gated access for things like Discord servers, online courses, merchandise stores, and event ticketing without needing to build the underlying infrastructure from scratch. The service supports multiple blockchain networks and is designed to be developer-friendly, offering a simple and secure way to build and manage token-gated communities with enhanced security and user experience.",Wallet
-https://revoke.cash/,Revoke Cash,Revoke approvals given to your wallet,"Revoke.cash is a web-based utility designed to help cryptocurrency users manage and revoke token approvals across multiple blockchain networks, primarily focusing on Ethereum and EVM-compatible chains. The platform provides a comprehensive interface that allows users to inspect and selectively cancel token spending permissions previously granted to smart contracts, which can mitigate potential security risks from outdated or unnecessary token allowances. By connecting a Web3 wallet, users can view all existing token approvals and easily revoke them with a simple transaction, helping to reduce the attack surface for potential malicious smart contract interactions. The service supports multiple networks including Ethereum, Binance Smart Chain, Polygon, Avalanche, and others, offering a streamlined approach to managing token permissions and enhancing individual wallet security.",Wallet
-https://sba.sites.stanford.edu/,Stanford Blockchain Accelerator,Stanford Blockchain Accelerator,"Run by Stanford Alumni, Lecturers, and industry veterans; SBA is THE accelerator and builder community for Stanford's Blockchain Builders. This exclusive admissions-based is program for Stanford Students, alumni, and faculty is free and non-dilultive. Applications are always, open, admission and fresh cohorts happen twice a year in the Winter and the Summer.",Bootcamp Developer
-`;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const navContainer = document.getElementById('category-nav');
-            const contentContainer = document.getElementById('content-area');
-
-            // 1. Parse CSV Data
-            const records = parseCSV(csvData);
-            
-            // 2. Group Data by Category
-            const groupedData = groupByCategory(records);
-            const sortedCategories = Object.keys(groupedData).sort();
-
-            // 3. Render Navigation & Content
-            renderNavigation(sortedCategories, navContainer);
-            renderContent(sortedCategories, groupedData, contentContainer);
+        const searchInput = document.getElementById('searchInput');
+        const searchStats = document.getElementById('searchStats');
+        const allCategories = document.querySelectorAll('.category-section');
+        const allCards = document.querySelectorAll('.resource-card');
+        
+        // Store original category counts
+        const categoryCounts = {};
+        allCategories.forEach(category => {
+            const categoryId = category.id;
+            const cards = category.querySelectorAll('.resource-card');
+            categoryCounts[categoryId] = cards.length;
         });
-
-        /**
-         * A robust CSV parser that handles the specific structure of the provided data.
-         * It finds the first two and the last comma to correctly segment the URL, name, description, and category,
-         * avoiding issues with commas in the long description field.
-         */
-        function parseCSV(csvText) {
-            const records = [];
-            const lines = csvText.trim().split(/\r\n|\n/);
-            lines.shift(); // Remove header row
-
-            for (const line of lines) {
-                if (!line.trim()) continue;
-
-                try {
-                    const firstComma = line.indexOf(',');
-                    const url = line.substring(0, firstComma).trim();
-
-                    const restOfLineAfterUrl = line.substring(firstComma + 1);
-                    const secondComma = restOfLineAfterUrl.indexOf(',');
-                    const name = restOfLineAfterUrl.substring(0, secondComma).trim();
-                    
-                    const restOfLineAfterName = restOfLineAfterUrl.substring(secondComma + 1);
-                    const thirdComma = restOfLineAfterName.indexOf(',');
-                    const description = restOfLineAfterName.substring(0, thirdComma).trim().replace(/^"|"$/g, '');
-
-                    const lastComma = line.lastIndexOf(',');
-                    const category = line.substring(lastComma + 1).trim();
-
-                    if (url && name && description && category) {
-                        records.push({ url, name, description, category });
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCards = 0;
+            let visibleCategories = 0;
+            
+            if (searchTerm === '') {
+                // Show all cards and categories
+                allCards.forEach(card => card.classList.remove('hidden'));
+                allCategories.forEach(category => category.classList.remove('hidden'));
+                searchStats.textContent = '';
+                
+                // Restore original counts
+                allCategories.forEach(category => {
+                    const countElement = category.querySelector('.category-count');
+                    const categoryId = category.id;
+                    if (countElement && categoryCounts[categoryId]) {
+                        countElement.textContent = `${categoryCounts[categoryId]} resources`;
                     }
-                } catch (error) {
-                    console.error("Could not parse line:", line, error);
-                }
-            }
-            return records;
-        }
-
-        /**
-         * Groups an array of records into an object keyed by category.
-         */
-        function groupByCategory(records) {
-            return records.reduce((acc, record) => {
-                const category = record.category || 'Uncategorized';
-                if (!acc[category]) {
-                    acc[category] = [];
-                }
-                acc[category].push(record);
-                return acc;
-            }, {});
-        }
-        
-        /**
-         * Creates a URL-friendly slug from a string.
-         */
-        function slugify(text) {
-            return text.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/-+$/, '');            // Trim - from end of text
-        }
-
-        /**
-         * Populates the navigation sidebar with category links.
-         */
-        function renderNavigation(categories, container) {
-            container.innerHTML = ''; // Clear loading placeholders
-            categories.forEach(category => {
-                const slug = slugify(category);
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#${slug}" class="block font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">${category}</a>`;
-                container.appendChild(li);
-            });
-        }
-        
-        /**
-         * Renders all categories and their projects into the main content area.
-         */
-        function renderContent(categories, groupedData, container) {
-            container.innerHTML = ''; // Clear loading placeholders
-            categories.forEach(category => {
-                const projects = groupedData[category];
-                const slug = slugify(category);
-
-                const section = document.createElement('section');
-                section.id = slug;
-                section.className = "mb-12 scroll-mt-24";
-
-                const title = document.createElement('h2');
-                title.className = "text-3xl font-bold text-slate-800 border-b-2 border-blue-200 pb-3 mb-6";
-                title.textContent = category;
-                section.appendChild(title);
-
-                const projectListContainer = document.createElement('div');
-                projectListContainer.className = "space-y-6";
-
-                projects.forEach(project => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = "bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300";
-                    
-                    const name = project.name.replace(/^"|"$/g, '');
-                    const description = project.description.replace(/^"|"$/g, '');
-
-                    itemDiv.innerHTML = `
-                        <h3 class="text-xl font-semibold">
-                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline decoration-2 underline-offset-2">
-                                ${name}
-                            </a>
-                        </h3>
-                        <p class="text-slate-600 mt-2">${description}</p>
-                    `;
-                    projectListContainer.appendChild(itemDiv);
                 });
-
-                section.appendChild(projectListContainer);
-                container.appendChild(section);
+                return;
+            }
+            
+            // Search through all categories
+            allCategories.forEach(category => {
+                const cards = category.querySelectorAll('.resource-card');
+                let categoryVisible = false;
+                let categoryMatchCount = 0;
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.resource-title')?.textContent.toLowerCase() || '';
+                    const shortDesc = card.querySelector('.resource-short')?.textContent.toLowerCase() || '';
+                    const longDesc = card.querySelector('.resource-description')?.textContent.toLowerCase() || '';
+                    const categoryName = category.querySelector('.category-title')?.textContent.toLowerCase() || '';
+                    
+                    if (title.includes(searchTerm) || 
+                        shortDesc.includes(searchTerm) || 
+                        longDesc.includes(searchTerm) ||
+                        categoryName.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        categoryVisible = true;
+                        visibleCards++;
+                        categoryMatchCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                if (categoryVisible) {
+                    category.classList.remove('hidden');
+                    visibleCategories++;
+                    // Update category count to show filtered results
+                    const countElement = category.querySelector('.category-count');
+                    if (countElement) {
+                        countElement.textContent = `${categoryMatchCount} resources`;
+                    }
+                } else {
+                    category.classList.add('hidden');
+                }
             });
+            
+            // Update search statistics
+            if (visibleCards === 0) {
+                searchStats.innerHTML = '<div class="no-results">No resources found. Try a different search term.</div>';
+            } else {
+                searchStats.textContent = `Found ${visibleCards} resource${visibleCards !== 1 ? 's' : ''} in ${visibleCategories} categor${visibleCategories !== 1 ? 'ies' : 'y'}`;
+            }
         }
+        
+        // Add event listener for search input
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 300); // Debounce for better performance
+        });
+        
+        // Handle escape key to clear search
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                performSearch();
+            }
+        });
+        
+        // Focus search on '/' key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
     </script>
-
 </body>
 </html>
