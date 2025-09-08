@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Information & Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Ethereum Information & Resources</h1>
+            <p class="text-slate-600 mt-3 max-w-2xl mx-auto">A curated list of projects, tools, and information for the Ethereum ecosystem, inspired by Lopp.net's directory.</p>
+        </header>
+
+        <div class="flex flex-col md:flex-row md:space-x-8">
+            <!-- Sticky Navigation Sidebar -->
+            <aside class="w-full md:w-1/4 lg:w-1/5 mb-8 md:mb-0">
+                <div class="sticky top-8 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold text-blue-700 mb-4 border-b border-slate-200 pb-3">Categories</h2>
+                    <ul id="category-nav" class="space-y-2">
+                        <!-- Navigation links will be populated by JavaScript -->
+                        <li class="animate-pulse bg-slate-200 h-6 rounded-md"></li>
+                        <li class="animate-pulse bg-slate-200 h-6 rounded-md w-5/6"></li>
+                        <li class="animate-pulse bg-slate-200 h-6 rounded-md w-2/3"></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main id="content-area" class="w-full md:w-3/4 lg:w-4/5">
+                <!-- Content sections will be populated by JavaScript -->
+                 <div class="space-y-4">
+                    <div class="animate-pulse bg-slate-200 h-10 w-1/2 rounded-md"></div>
+                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
+                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
+                    <div class="animate-pulse bg-white h-24 rounded-md shadow"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // CSV data from the uploaded file
+        const csvData = `Project URL,Project name,short description,long description,Category
+https://www.request.finance/,Request Finance,Crypto payment solution,"Request Finance is a decentralized payment infrastructure that enables businesses and freelancers to manage cryptocurrency invoicing, billing, and payroll with multi-chain support and fiat conversion capabilities. The platform allows users to create and send professional crypto invoices, automate recurring payments, and receive funds across multiple blockchain networks, including Ethereum, Polygon, Binance Smart Chain, and others. By integrating advanced features like batch payments, on-chain and off-chain settlements, and real-time treasury management, Request Finance streamlines financial workflows for web3 organizations and crypto-native teams. The protocol leverages smart contract technology to provide transparent, secure, and programmable payment solutions that reduce friction in cross-border transactions and enable more efficient financial operations for blockchain-based enterprises.",APP
+https://www.moonpay.com/,MoonPay,Payment processor,"MoonPay is a cryptocurrency payment infrastructure platform that enables seamless fiat-to-crypto transactions for consumers and businesses through a unified API and widget solution. The platform supports over 380 cryptocurrencies and allows users to purchase digital assets using various payment methods including credit/debit cards, bank transfers, and Apple Pay across multiple blockchains and exchanges. By providing a streamlined on-ramp and off-ramp experience, MoonPay helps developers and enterprises integrate crypto payment functionalities directly into their applications, websites, and wallets. The service is designed to be fully compliant with regulatory standards, offering robust KYC/AML procedures to ensure secure and legitimate transactions while improving accessibility to the digital asset ecosystem for a global user base.",APP
+https://fire.xyz/,Fire,Web3 Browser Extension,"Fire is a web3 browser extension designed to enhance transaction security and user experience by simulating transactions before they are signed and executed on the blockchain. By providing a detailed preview of the potential outcomes, Fire allows users to identify and avoid malicious smart contracts, phishing attempts, and other common security threats in the decentralized finance (DeFi) and non-fungible token (NFT) space. The extension simulates how a transaction will affect a user's wallet balance, token allowances, and NFT holdings, presenting the information in a clear and understandable format. This pre-transaction analysis helps users make more informed decisions, mitigate risks, and interact with decentralized applications (dApps) with greater confidence. Fire supports multiple EVM-compatible networks and integrates with popular wallets like MetaMask, offering an additional layer of security for both new and experienced crypto users.",Wallet
+https://blockfence.io/,Blockfence,Web3 Browser Extension,"BlockFence is a web3 security extension designed to protect crypto users from scams, phishing attacks, and malicious smart contracts by providing real-time threat intelligence and transaction analysis. The browser extension integrates with popular wallets like MetaMask and offers proactive security alerts that warn users before they interact with potentially harmful decentralized applications (dApps) or sign risky transactions. By simulating transactions and analyzing smart contract code, BlockFence can identify common attack vectors, such as address poisoning, and flag suspicious activities before a user commits to them on-chain. The platform aims to enhance the security of the web3 ecosystem by empowering users with the tools and information needed to navigate the decentralized web more safely. It provides a user-friendly interface that translates complex blockchain data into clear, actionable insights, helping to prevent financial losses and improve overall wallet security.",Wallet
+https://walletguard.app/,Wallet Guard,Web3 Browser Extension,"WalletGuard is a web3 security extension that provides real-time protection against phishing, scams, and malicious smart contracts by simulating transactions before they are executed. The open-source browser extension integrates with popular wallets like MetaMask to offer users a clear and detailed preview of what a transaction will do, including its impact on their token and NFT balances. By identifying potential threats and security risks, such as suspicious contract interactions or approvals, WalletGuard helps users make more informed decisions and avoid common pitfalls in the decentralized finance (DeFi) and NFT ecosystems. The platform is designed to enhance user security without compromising privacy, offering a non-intrusive way to add an extra layer of protection to web3 activities. With its focus on proactive threat detection and user education, WalletGuard aims to make the decentralized web a safer environment for everyone.",Wallet
+https://secrethealth.io/,SecretHealth,Decentralized health data marketplace,"SecretHealth is a decentralized health data marketplace built on Secret Network that enables individuals to securely and privately share their health information with researchers while retaining full control and ownership of their data. The platform leverages Secret Network's privacy-preserving smart contracts, known as ""Secret Contracts,"" to ensure that sensitive health data remains encrypted and confidential, even during computation. Users can upload their health records, set access permissions, and monetize their data by allowing approved researchers to perform analyses without exposing the raw information. This approach aims to accelerate medical research by providing access to valuable datasets while addressing the privacy concerns traditionally associated with sharing personal health information. By creating a secure and transparent ecosystem for data exchange, SecretHealth empowers individuals to contribute to scientific advancements on their own terms.",APP
+https://picketapi.com/,Picket,NFT token gating,"Picket is a web3 authentication and access control platform that enables developers to integrate non-fungible token (NFT) and token-based gating into their applications, websites, and online communities. The platform provides a suite of APIs and tools that allow for seamless verification of token ownership, enabling developers to create exclusive content, features, and experiences for specific token holders. By leveraging Picket, projects can easily implement token-gated access for things like Discord servers, online courses, merchandise stores, and event ticketing without needing to build the underlying infrastructure from scratch. The service supports multiple blockchain networks and is designed to be developer-friendly, offering a simple and secure way to build and manage token-gated communities with enhanced security and user experience.",Wallet
+https://revoke.cash/,Revoke Cash,Revoke approvals given to your wallet,"Revoke.cash is a web-based utility designed to help cryptocurrency users manage and revoke token approvals across multiple blockchain networks, primarily focusing on Ethereum and EVM-compatible chains. The platform provides a comprehensive interface that allows users to inspect and selectively cancel token spending permissions previously granted to smart contracts, which can mitigate potential security risks from outdated or unnecessary token allowances. By connecting a Web3 wallet, users can view all existing token approvals and easily revoke them with a simple transaction, helping to reduce the attack surface for potential malicious smart contract interactions. The service supports multiple networks including Ethereum, Binance Smart Chain, Polygon, Avalanche, and others, offering a streamlined approach to managing token permissions and enhancing individual wallet security.",Wallet
+https://sba.sites.stanford.edu/,Stanford Blockchain Accelerator,Stanford Blockchain Accelerator,"Run by Stanford Alumni, Lecturers, and industry veterans; SBA is THE accelerator and builder community for Stanford's Blockchain Builders. This exclusive admissions-based is program for Stanford Students, alumni, and faculty is free and non-dilultive. Applications are always, open, admission and fresh cohorts happen twice a year in the Winter and the Summer.",Bootcamp Developer
+`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navContainer = document.getElementById('category-nav');
+            const contentContainer = document.getElementById('content-area');
+
+            // 1. Parse CSV Data
+            const records = parseCSV(csvData);
+            
+            // 2. Group Data by Category
+            const groupedData = groupByCategory(records);
+            const sortedCategories = Object.keys(groupedData).sort();
+
+            // 3. Render Navigation & Content
+            renderNavigation(sortedCategories, navContainer);
+            renderContent(sortedCategories, groupedData, contentContainer);
+        });
+
+        /**
+         * A robust CSV parser that handles the specific structure of the provided data.
+         * It finds the first two and the last comma to correctly segment the URL, name, description, and category,
+         * avoiding issues with commas in the long description field.
+         */
+        function parseCSV(csvText) {
+            const records = [];
+            const lines = csvText.trim().split(/\r\n|\n/);
+            lines.shift(); // Remove header row
+
+            for (const line of lines) {
+                if (!line.trim()) continue;
+
+                try {
+                    const firstComma = line.indexOf(',');
+                    const url = line.substring(0, firstComma).trim();
+
+                    const restOfLineAfterUrl = line.substring(firstComma + 1);
+                    const secondComma = restOfLineAfterUrl.indexOf(',');
+                    const name = restOfLineAfterUrl.substring(0, secondComma).trim();
+                    
+                    const restOfLineAfterName = restOfLineAfterUrl.substring(secondComma + 1);
+                    const thirdComma = restOfLineAfterName.indexOf(',');
+                    const description = restOfLineAfterName.substring(0, thirdComma).trim().replace(/^"|"$/g, '');
+
+                    const lastComma = line.lastIndexOf(',');
+                    const category = line.substring(lastComma + 1).trim();
+
+                    if (url && name && description && category) {
+                        records.push({ url, name, description, category });
+                    }
+                } catch (error) {
+                    console.error("Could not parse line:", line, error);
+                }
+            }
+            return records;
+        }
+
+        /**
+         * Groups an array of records into an object keyed by category.
+         */
+        function groupByCategory(records) {
+            return records.reduce((acc, record) => {
+                const category = record.category || 'Uncategorized';
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(record);
+                return acc;
+            }, {});
+        }
+        
+        /**
+         * Creates a URL-friendly slug from a string.
+         */
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '');            // Trim - from end of text
+        }
+
+        /**
+         * Populates the navigation sidebar with category links.
+         */
+        function renderNavigation(categories, container) {
+            container.innerHTML = ''; // Clear loading placeholders
+            categories.forEach(category => {
+                const slug = slugify(category);
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#${slug}" class="block font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">${category}</a>`;
+                container.appendChild(li);
+            });
+        }
+        
+        /**
+         * Renders all categories and their projects into the main content area.
+         */
+        function renderContent(categories, groupedData, container) {
+            container.innerHTML = ''; // Clear loading placeholders
+            categories.forEach(category => {
+                const projects = groupedData[category];
+                const slug = slugify(category);
+
+                const section = document.createElement('section');
+                section.id = slug;
+                section.className = "mb-12 scroll-mt-24";
+
+                const title = document.createElement('h2');
+                title.className = "text-3xl font-bold text-slate-800 border-b-2 border-blue-200 pb-3 mb-6";
+                title.textContent = category;
+                section.appendChild(title);
+
+                const projectListContainer = document.createElement('div');
+                projectListContainer.className = "space-y-6";
+
+                projects.forEach(project => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = "bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300";
+                    
+                    const name = project.name.replace(/^"|"$/g, '');
+                    const description = project.description.replace(/^"|"$/g, '');
+
+                    itemDiv.innerHTML = `
+                        <h3 class="text-xl font-semibold">
+                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline decoration-2 underline-offset-2">
+                                ${name}
+                            </a>
+                        </h3>
+                        <p class="text-slate-600 mt-2">${description}</p>
+                    `;
+                    projectListContainer.appendChild(itemDiv);
+                });
+
+                section.appendChild(projectListContainer);
+                container.appendChild(section);
+            });
+        }
+    </script>
+
+</body>
+</html>
