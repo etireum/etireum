@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,61 +27,61 @@
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1.25rem 0;
+            padding: 0.75rem 0;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
         header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.15rem;
         }
         
         header p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
         
         
         main {
-            padding: 0.75rem 0;
+            padding: 0.5rem 0;
         }
         
         .category-section {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             overflow: hidden;
         }
         
         .category-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
         }
         
         .category-title {
-            font-size: 1.4rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.1rem;
         }
         
         .category-count {
             opacity: 0.9;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
         
         .resources-grid {
-            padding: 0.75rem;
+            padding: 0.5rem;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.5rem;
         }
         
         .resource-card {
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 1rem;
+            border-radius: 5px;
+            padding: 0.75rem;
             transition: all 0.3s ease;
             text-decoration: none;
             display: block;
@@ -96,10 +96,11 @@
         }
         
         .resource-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.25rem;
             color: #1e293b;
+            line-height: 1.2;
         }
         
         .resource-title a {
@@ -113,27 +114,20 @@
         
         .resource-short {
             color: #64748b;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.3;
         }
         
         .resource-description {
             color: #475569;
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-size: 0.8rem;
+            line-height: 1.35;
             margin-bottom: 0;
         }
         
         
-        footer {
-            background: #1e293b;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
         
         @media (max-width: 768px) {
             .resources-grid {
@@ -147,11 +141,11 @@
         
         .search-container {
             background: white;
-            padding: 1rem 0;
+            padding: 0.6rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
         
         .search-box {
@@ -160,10 +154,10 @@
         
         .search-input {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
             border: 2px solid #e2e8f0;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
         
@@ -179,9 +173,9 @@
         
         .search-stats {
             text-align: center;
-            padding: 0.5rem;
+            padding: 0.3rem;
             color: #64748b;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .category-section.hidden {
@@ -2993,12 +2987,6 @@ EthDenver is an annual blockchain and Ethereum-focused hackathon and innovation 
         </div>
     </main>
     
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Ethereum Resources Directory. Educational resources for the Ethereum ecosystem.</p>
-        </div>
-    </footer>
-    
 
     <script>
         const searchInput = document.getElementById('searchInput');
@@ -3107,4 +3095,3 @@ EthDenver is an annual blockchain and Ethereum-focused hackathon and innovation 
     </script>
 </body>
 </html>
-
